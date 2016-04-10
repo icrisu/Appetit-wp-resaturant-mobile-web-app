@@ -1,8 +1,14 @@
 <?php
+
+require_once(dirname(__FILE__) . '/admin/ui/core-ui.php');
+require_once(dirname(__FILE__) . '/options/AppetitOptions.php');
+require_once(dirname(__FILE__) . '/utils/AppetitUtils.php');
 /**
 * Base plugin class
 */
 class AppetitCore {
+
+	private $_optionPageSlug = 'appetitoptspage';
 
 	public function initializeHandler() {
 
@@ -10,14 +16,14 @@ class AppetitCore {
 
 	//menu event
 	public function admin_menu() {
-		require_once(__DIR__.'/admin/ui/core-ui.php');
+		$CoreUI = new CoreUI();
 	    add_menu_page( 
 	        __( 'Appetit - Restaurant App', 'appetitdomain' ),
-	        __( 'Appetit', 'appetitdomain' ),
+	        __( 'Appetit menu', 'appetitdomain' ),
 	        'manage_options',
-	        'custompage',
-	        array('CoreUI' , 'render'),
-	        plugins_url( 'myplugin/images/icon.png' )
+	        $this->_optionPageSlug,
+	        array($CoreUI , 'renderMaster'),
+	        APPETIT_ADMIN_URI . '/img/icon.png'
 	    ); 
 		
 	}
@@ -26,7 +32,36 @@ class AppetitCore {
 	public function adminEnqueueScriptsHandler() {
 		$current_screen = get_current_screen();
 		$screenID = $current_screen->id;
-		echo $screenID;
+		if (substr($screenID, -strlen($this->_optionPageSlug)) == $this->_optionPageSlug) {
+			//load admin option page scripts
+			AppetitUtils::enqueAdminFontsFrom(AppetitOptions::getAdminFonts());
+
+			wp_register_style('appetit_admin_icons', APPETIT_ADMIN_URI . '/css/style.css');
+			wp_enqueue_style('appetit_admin_icons');
+
+			wp_register_style('appetit_admin_style', APPETIT_ADMIN_URI . '/css/appetit-admin.css');
+			wp_enqueue_style('appetit_admin_style');
+
+			wp_register_style('jquery_ui_style', APPETIT_ADMIN_URI . '/css/jquery-ui.min.css');
+			wp_enqueue_style('jquery_ui_style');
+
+			wp_enqueue_script('jquery');
+			wp_enqueue_script('jquery-ui-tabs');
+			wp_enqueue_script('jquery-ui-accordion');
+			wp_enqueue_script('jquery-ui-sortable');						
+			wp_enqueue_script('underscore');
+
+			wp_enqueue_script('media-upload');
+			wp_enqueue_media();						
+
+			wp_register_script( 'sakura_utils', APPETIT_ADMIN_URI.'/js/sakura-utils.js', array('jquery'), FALSE, TRUE);
+			wp_enqueue_script('sakura_utils');
+			wp_register_script( 'appetit_views', APPETIT_ADMIN_URI.'/js/appetit-views.js', array('jquery'), FALSE, TRUE);
+			wp_enqueue_script('appetit_views');
+			wp_register_script( 'appetit_admin', APPETIT_ADMIN_URI.'/js/appetit-admin.js', array('appetit_views'), FALSE, TRUE);
+			wp_enqueue_script('appetit_admin');										
+		}
+
 	}
 
 

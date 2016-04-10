@@ -9,7 +9,7 @@ Author URI: http://sakuraplugins.com/
 */
 
 define('APPETIT_ADMIN_URI', plugins_url('', __FILE__).'/resources/admin');
-define('APPETIT_FRONT_URI', plugins_url('', __FILE__).'/resources/admin');
+define('APPETIT_FRONT_URI', plugins_url('', __FILE__).'/resources/front');
 
 require_once(__DIR__.'/com/sakuraplugins/plugin-core.php');
 
