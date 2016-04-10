@@ -98,18 +98,21 @@ a.popup-button:active{
 /* end popups */
 
 /* sections */
-.section_img_ui {
+.section_img_ui, .menu_img_ui {
 	margin: 0px 10px;
 	margin-left: 20px;
 	display: inline-block;
 	vertical-align: middle;
 }
-.section_img_ui img {
+.section_img_ui img, .menu_img_ui img {
 	max-width: 50px;
 }
 .section-space-line {
 	margin: 20px 0px;
 	height: 1px; background-color: #F2F2F2;
+}
+.item_small_description {
+	margin-top: 25px; width: 50%; min-height: 100px;
 }
 /* end sections */
 
@@ -180,6 +183,17 @@ a.content-large-button:active{
 	font-family: 'Open Sans', sans-serif !important;
 	font-size: 14px;   
 	vertical-align: middle;
+}
+.input_margin {
+	margin-right: 20px;
+}
+
+.price_input {
+	width: 60px;
+}
+
+.input_label_prepend {
+	margin-right: 10px;
 }
 
 .a-pull-left {

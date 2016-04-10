@@ -9,7 +9,7 @@ var AViews = function() {
 			this.buildHtml = function() {
 				return [
 				'<div>',
-				    '<h3 class="section-header"><span>| </span><span class="m_title"> ' + data + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="sectionRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
+				    '<h3 class="section-header"><span>|  </span><span class="m_title"> ' + data + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="sectionRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
 				    '<div class="clearfix">',
 					    '<div class="section-content-header">',
 					    	'<input class="generic_input one-third section_name" placeholder="Section name" type="text" value="'+ data +'" />',
@@ -79,7 +79,7 @@ var AViews = function() {
 			}
 
 			this.addMenuItem = function(val) {
-				var sectionView = new AppetitViews.MenuItemView(data);
+				var sectionView = new AppetitViews.MenuItemView(val);
 				sectionView.renderTo(this.el.find('.menu_items'));
 				sectionView.init();
 				this.refreshMenu();
@@ -121,8 +121,13 @@ var AViews = function() {
 				    '<h3 class="section-header"><span>| </span><span class="menu_title"> ' + data + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
 				    '<div class="clearfix">',
 					    '<div class="section-content-header">',
-					    	'<input class="generic_input one-third menu_item_name" placeholder="Item name" type="text" value="'+ data +'" />',
+					    	'<span class="input_label_prepend">Name</span><input class="generic_input one-third input_margin menu_item_name" placeholder="Item name" type="text" value="'+ data +'" />',
+					    	'<span class="input_label_prepend">Price</span><input class="generic_input price_input" type="number" min="0" />',
+					    	'<div class="menu_img_ui"></div>',
+					    	'<input class="menu_img_id" type="hidden" />',
+					    	'<a class="base-button menuImageBTN" href="#"><span class="appetit-upload"></span>Upload image</a>',					    	
 					    	'<div class="clearfix"></div>',
+					    	'<textarea class="item_small_description" placeholder="small description"></textarea>',
 					    '</div>',
 				    '</div>',
 				'</div>'
@@ -137,8 +142,32 @@ var AViews = function() {
 			}
 
 			this.init = function() {
-				console.log('init menu item');
+				this.addEvents();
 			}
+
+			this.addEvents = function() {
+				var _self = this;
+				this.el.find('.menuImageBTN').click(_.bind(function(e) {
+					e.preventDefault();
+					SakuraPlugins.utils.openMedia(false, _.bind(function(data) {
+						if (data[0]) {
+							this.el.find('.menu_img_ui').html('<img src="' + data[0].iconUrl + '" alt="" />');
+							this.el.find('.menu_img_id').val(data[0].id);
+						}
+					}, this));
+				}, this));
+
+				this.el.find('.menuRemoveBTN').click(_.bind(function(e) {
+					e.preventDefault();
+					if (confirm('Are you sure you want to remove this item?')) {
+						_self.el.remove();
+					}					
+				}, this));
+
+				this.el.find('.menu_item_name').on('input', _.bind(function() {
+					this.el.find('.menu_title').html(this.el.find('.menu_item_name').val());		
+				}, this));																				
+			}			
 
 			this.serialize = function() {
 				return {};
