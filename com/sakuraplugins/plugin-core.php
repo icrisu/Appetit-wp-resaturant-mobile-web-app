@@ -64,12 +64,24 @@ class AppetitCore {
 
 	}
 
+	public function appetit_admin_api() {
+		$appetitData = isset($_POST['appetitData']) ? $_POST['appetitData'] : false;
+		if ($appetitData && is_admin()) {
+			echo json_encode(array('status' => 'OK'));
+		} else {
+			echo json_encode(array('status' => 'FAIL', 'msg' => 'Something went wrong, only admin can save this data!'));
+		}
+		die();
+	}
+
 
 	//init listeners
 	public function init($opts=NULL){
 		add_action( 'init', array($this, 'initializeHandler' ));
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action('admin_enqueue_scripts', array($this, 'adminEnqueueScriptsHandler'));
+
+		add_action( 'wp_ajax_appetit_admin_api', array( $this, 'appetit_admin_api' ) );
 
 		return;
 		add_action('after_setup_theme', array($this, 'after_theme_setup'));			

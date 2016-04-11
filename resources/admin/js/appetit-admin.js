@@ -6,11 +6,13 @@ jQuery( document ).ready(function() {
 
 var AppetitAdmin = function() {}
 
-AppetitAdmin.prototype.addMenuSection = function(data) {
-	var sectionView = new AppetitViews.SectionView(data);
+AppetitAdmin.prototype.addMenuSection = function(sectionName) {
+	var sectionView = new AppetitViews.SectionView();
+	sectionView.setData({ sectionName : sectionName });
 	sectionView.renderTo(this.sectionsUI);
 	sectionView.init();
 	this.refreshSections();
+	this.sections.push(sectionView);
 };
 
 AppetitAdmin.prototype.initEvents = function() {
@@ -20,6 +22,11 @@ AppetitAdmin.prototype.initEvents = function() {
 			this.addMenuSection(val);
 		}, this));
 		popup.show();
+	}, this));
+
+	jQuery('#saveAppetitDataBTN').click(_.bind(function(e) {
+		e.preventDefault();
+		this.save();		
 	}, this));
 };
 
@@ -57,8 +64,40 @@ AppetitAdmin.prototype.initJQUI = function(first_argument) {
 	});		
 };
 
+AppetitAdmin.prototype.save = function(callback, isSilent) {
+	var sectionsData = this.serialize();	
+	jQuery.post(
+	    ajaxurl, 
+	    {
+	        'action': 'appetit_admin_api',
+	        'appetitData':   sectionsData
+	    }, 
+	    function(response){
+	    	try {
+	    		var responseData = JSON.parse(response);
+	    		if (responseData.status == 'OK') {
+
+	    		} else {
+	    			alert(responseData.msg);
+	    		}
+	    	} catch (e) {
+	    		alert('invalid server response');
+	    	}	        
+	    }
+	);	
+};
+
+AppetitAdmin.prototype.serialize = function() {
+	var sectionsData = [];
+	_.each(this.sections, function(sectionView) {
+		sectionsData.push(sectionView.serialize());
+	});
+	return sectionsData;
+};
+
 AppetitAdmin.prototype.init = function() {
 	this.sectionsUI = jQuery('#sections_accordion');
 	this.initJQUI();
 	this.initEvents();
+	this.sections = [];
 };

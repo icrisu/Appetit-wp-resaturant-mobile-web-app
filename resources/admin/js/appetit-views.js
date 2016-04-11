@@ -6,13 +6,16 @@ var AViews = function() {
 		//section view
 		SectionView: function(data) {
 
-			this.buildHtml = function() {
+			this.menuItems = [];
+			this.uid = SakuraPlugins.utils.generateUID();
+
+			this.buildHtml = function(data) {
 				return [
 				'<div>',
-				    '<h3 class="section-header"><span>|  </span><span class="m_title"> ' + data + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="sectionRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
+				    '<h3 class="section-header"><span>|  </span><span class="m_title"> ' + data.sectionName + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="sectionRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
 				    '<div class="clearfix">',
 					    '<div class="section-content-header">',
-					    	'<input class="generic_input one-third section_name" placeholder="Section name" type="text" value="'+ data +'" />',
+					    	'<input class="generic_input one-third section_name" placeholder="Section name" type="text" value="'+ data.sectionName +'" />',
 					    	'<div class="section_img_ui"></div>',
 					    	'<input class="section_img_id" type="hidden" />',
 					    	'<a class="base-button sectionImageBTN" href="#"><span class="appetit-upload"></span>Upload section image</a>',
@@ -29,7 +32,14 @@ var AViews = function() {
 				].join('');
 			}
 
-			this.el = jQuery(this.buildHtml());
+			this.setData = function(data) {
+				this.el = jQuery(this.buildHtml(data));
+			}
+
+			//useing set element for existing sections
+			this.setElement = function(elUI) {
+				this.el = elUI;
+			}
 
 			this.renderTo = function(UI) {
 				UI.append(this.el);
@@ -79,10 +89,11 @@ var AViews = function() {
 			}
 
 			this.addMenuItem = function(val) {
-				var sectionView = new AppetitViews.MenuItemView(val);
-				sectionView.renderTo(this.el.find('.menu_items'));
-				sectionView.init();
+				var menuItem = new AppetitViews.MenuItemView(val);
+				menuItem.renderTo(this.el.find('.menu_items'));
+				menuItem.init();
 				this.refreshMenu();
+				this.menuItems.push(menuItem);
 			}
 
 			this.initJQUI = function() {
@@ -107,7 +118,15 @@ var AViews = function() {
 			}
 
 			this.serialize = function() {
-				return {};
+				var menuItemsData = [];
+				_.each(this.menuItems, function(menuItem) {
+					menuItemsData.push(menuItem.serialize());
+				});
+				return {
+					section_name : this.el.find('.section_name').val(),
+					section_img_id : this.el.find('.section_img_id').val(),
+					section_items : menuItemsData
+				};
 			}
 		},
 		//end section view
@@ -115,9 +134,11 @@ var AViews = function() {
 		//menu item view
 		MenuItemView: function(data) {
 
+			this.uid = SakuraPlugins.utils.generateUID();
+
 			this.buildHtml = function() {
 				return [
-				'<div>',
+				'<div class="menu_item_ui">',
 				    '<h3 class="section-header"><span>| </span><span class="menu_title"> ' + data + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
 				    '<div class="clearfix">',
 					    '<div class="section-content-header">',
@@ -170,7 +191,12 @@ var AViews = function() {
 			}			
 
 			this.serialize = function() {
-				return {};
+				return {
+					menu_item_name: this.el.find('.menu_item_name').val(),
+					price_input: this.el.find('.price_input').val(),
+					menu_img_id: this.el.find('.menu_img_id').val(),	
+					item_small_description: this.el.find('.item_small_description').html()
+				};
 			}			
 		},
 		//end menu item view	

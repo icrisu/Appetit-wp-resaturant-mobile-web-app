@@ -114,6 +114,10 @@ a.popup-button:active{
 .item_small_description {
 	margin-top: 25px; width: 50%; min-height: 100px;
 }
+.addMenuItemBTN {
+	font-size: 18px !important;
+	vertical-align: middle;
+}
 /* end sections */
 
 /* utils */

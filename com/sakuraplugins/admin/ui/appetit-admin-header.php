@@ -14,6 +14,7 @@ class AppetitHeader
 		?>
 		<div class="appetit-admin-header">
 			<img src="<?php echo APPETIT_ADMIN_URI . '/img/admin-logo.png'; ?>" alt="logo" />
+			<a id="saveAppetitDataBTN" href="#">Save</a>
 		</div>
 		<?php
 	}
