@@ -4,14 +4,15 @@ var AViews = function() {
 	return {
 
 		//section view
-		SectionView: function(data) {
+		SectionView: function(AppetitAdmin) {
 
+			this.AppetitAdmin = AppetitAdmin;
 			this.menuItems = [];
-			this.uid = SakuraPlugins.utils.generateUID();
+			this.cid = SakuraPlugins.utils.generateUID();
 
 			this.buildHtml = function(data) {
 				return [
-				'<div>',
+				'<div class="appetit_section">',
 				    '<h3 class="section-header"><span>|  </span><span class="m_title"> ' + data.sectionName + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="sectionRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
 				    '<div class="clearfix">',
 					    '<div class="section-content-header">',
@@ -48,7 +49,18 @@ var AViews = function() {
 
 			this.init = function() {
 				this.addEvents();
-				this.initJQUI();				
+				this.initJQUI();
+				this.initExistingMenuItems();		
+			}
+
+			this.initExistingMenuItems = function() {
+				if (this.el.find('.menu_item_ui').length == 0) {
+					return;
+				}
+				var _self = this;
+				this.el.find('.menu_item_ui').each(function(index) {
+					_self.addMenuItemFromExistingElement(jQuery(this));
+				});
 			}
 
 			this.addEvents = function() {
@@ -67,6 +79,7 @@ var AViews = function() {
 					e.preventDefault();
 					if (confirm('Are you sure you want to remove this section?')) {
 						_self.el.remove();
+						_self.AppetitAdmin.handleSectionRemove(_self);
 					}					
 				}, this));
 
@@ -88,9 +101,28 @@ var AViews = function() {
 				}, this));																			
 			}
 
+			this.handleItemRemove = function(itemView) {
+				for (var i = 0; i < this.menuItems.length; i++) {
+					if (this.menuItems[i].cid === itemView.cid) {
+						this.menuItems.splice(i, 1);
+						this.refreshMenu();
+						break;
+					}
+				}
+			}
+
 			this.addMenuItem = function(val) {
-				var menuItem = new AppetitViews.MenuItemView(val);
+				var menuItem = new AppetitViews.MenuItemView(this);
+				menuItem.setData({ itemName : val });
 				menuItem.renderTo(this.el.find('.menu_items'));
+				menuItem.init();
+				this.refreshMenu();
+				this.menuItems.push(menuItem);
+			}
+
+			this.addMenuItemFromExistingElement = function(itemUI) {
+				var menuItem = new AppetitViews.MenuItemView(this);
+				menuItem.setElement(itemUI);
 				menuItem.init();
 				this.refreshMenu();
 				this.menuItems.push(menuItem);
@@ -108,8 +140,22 @@ var AViews = function() {
 				
 				this.el.find('.menu_items').sortable({
 			        axis: "y",
-			        handle: "h3"					        		
+			        handle: "h3",
+					start: function(event, ui) {
+					    ui.item.data('start_pos', ui.item.index());
+					},
+				    stop: _.bind(function(event, ui) {
+				        var start_pos = ui.item.data('start_pos');		        
+				        if (start_pos != ui.item.index()) {
+				            // the item got moved
+				            this.handleSort(parseInt(start_pos, 10), parseInt(ui.item.index(), 10));
+				        }	        
+				    }, this)			        				        		
 				});				
+			}
+
+			this.handleSort = function(from, to) {
+				this.menuItems.splice(to, 0, this.menuItems.splice(from, 1)[0]);
 			}
 
 			this.refreshMenu = function() {
@@ -132,17 +178,18 @@ var AViews = function() {
 		//end section view
 
 		//menu item view
-		MenuItemView: function(data) {
+		MenuItemView: function(SectionView) {
 
-			this.uid = SakuraPlugins.utils.generateUID();
+			this.SectionView = SectionView;
+			this.cid = SakuraPlugins.utils.generateUID();
 
-			this.buildHtml = function() {
+			this.buildHtml = function(data) {
 				return [
 				'<div class="menu_item_ui">',
-				    '<h3 class="section-header"><span>| </span><span class="menu_title"> ' + data + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
+				    '<h3 class="section-header"><span>| </span><span class="menu_title"> ' + data.itemName + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
 				    '<div class="clearfix">',
 					    '<div class="section-content-header">',
-					    	'<span class="input_label_prepend">Name</span><input class="generic_input one-third input_margin menu_item_name" placeholder="Item name" type="text" value="'+ data +'" />',
+					    	'<span class="input_label_prepend">Name</span><input class="generic_input one-third input_margin menu_item_name" placeholder="Item name" type="text" value="'+ data.itemName +'" />',
 					    	'<span class="input_label_prepend">Price</span><input class="generic_input price_input" type="number" min="0" />',
 					    	'<div class="menu_img_ui"></div>',
 					    	'<input class="menu_img_id" type="hidden" />',
@@ -155,7 +202,13 @@ var AViews = function() {
 				].join('');
 			}
 
-			this.el = jQuery(this.buildHtml());
+			this.setData = function(data) {
+				this.el = jQuery(this.buildHtml(data));
+			}
+
+			this.setElement = function(ui) {
+				this.el = ui;
+			}
 
 			this.renderTo = function(UI) {
 				UI.append(this.el);
@@ -182,6 +235,7 @@ var AViews = function() {
 					e.preventDefault();
 					if (confirm('Are you sure you want to remove this item?')) {
 						_self.el.remove();
+						this.SectionView.handleItemRemove(_self);
 					}					
 				}, this));
 

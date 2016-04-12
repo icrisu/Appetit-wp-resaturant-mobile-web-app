@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'appetit';
-    src:    url('fonts/appetit.eot?mag9z6');
-    src:    url('fonts/appetit.eot?mag9z6#iefix') format('embedded-opentype'),
-        url('fonts/appetit.ttf?mag9z6') format('truetype'),
-        url('fonts/appetit.woff?mag9z6') format('woff'),
-        url('fonts/appetit.svg?mag9z6#appetit') format('svg');
+    src:    url('fonts/appetit.eot?i9i3z2');
+    src:    url('fonts/appetit.eot?i9i3z2#iefix') format('embedded-opentype'),
+        url('fonts/appetit.ttf?i9i3z2') format('truetype'),
+        url('fonts/appetit.woff?i9i3z2') format('woff'),
+        url('fonts/appetit.svg?i9i3z2#appetit') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -24,11 +24,23 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.appetit-upload:before {
-    content: "\e908";
+.appetit-save:before {
+    content: "\e90c";
 }
-.appetit-cloud-upload:before {
-    content: "\e906";
+.appetit-arrow-move:before {
+    content: "\e904";
+}
+.appetit-plus:before {
+    content: "\e909";
+}
+.appetit-cloud-upload2:before {
+    content: "\e907";
+}
+.appetit-cross:before {
+    content: "\e900";
+}
+.appetit-floppy-o:before {
+    content: "\e90b";
 }
 .appetit-move2:before {
     content: "\e905";
@@ -42,16 +54,25 @@
 .appetit-trashcan:before {
     content: "\e901";
 }
-.appetit-arrow-move:before {
-    content: "\e904";
+.appetit-floppy-disk:before {
+    content: "\e90a";
 }
-.appetit-plus:before {
-    content: "\e909";
+.appetit-move2:before {
+    content: "\e905";
 }
-.appetit-cloud-upload2:before {
-    content: "\e907";
+.appetit-move:before {
+    content: "\e903";
 }
-.appetit-cross:before {
-    content: "\e900";
+.appetit-trashcan2:before {
+    content: "\e902";
+}
+.appetit-trashcan:before {
+    content: "\e901";
+}
+.appetit-upload:before {
+    content: "\e908";
+}
+.appetit-cloud-upload:before {
+    content: "\e906";
 }
 

@@ -120,6 +120,23 @@ a.popup-button:active{
 }
 /* end sections */
 
+#appetitSaveBtn {
+	position: fixed; z-index: 999999;
+	right: -2px;
+	top: 130px;
+	padding: 15px 20px;
+	background-color: #23282d;
+	border-radius: 4px;
+	color: #F2F2F2; cursor: pointer;
+	font-size: 16px;
+}
+#appetitSaveBtn:hover {
+	background-color: #52bece;
+}
+.save_label {
+	margin-left: 10px;
+}
+
 /* utils */
 .centered-content {
 	text-align: center;

@@ -9,6 +9,7 @@ require_once(dirname(__FILE__) . '/utils/AppetitUtils.php');
 class AppetitCore {
 
 	private $_optionPageSlug = 'appetitoptspage';
+	const APPETIT_MENU_DATA = 'APPETIT_MENU_DATA';
 
 	public function initializeHandler() {
 
@@ -65,12 +66,15 @@ class AppetitCore {
 	}
 
 	public function appetit_admin_api() {
-		$appetitData = isset($_POST['appetitData']) ? $_POST['appetitData'] : false;
-		if ($appetitData && is_admin()) {
-			echo json_encode(array('status' => 'OK'));
-		} else {
+		if (!is_admin()) {
 			echo json_encode(array('status' => 'FAIL', 'msg' => 'Something went wrong, only admin can save this data!'));
+			die();
 		}
+		$sectionsData = isset($_POST['sectionsData']) ? $_POST['sectionsData'] : [];
+		update_option( self::APPETIT_MENU_DATA, array(
+			'sectionsData' => $sectionsData
+		));
+		echo json_encode(array('status' => 'OK'));
 		die();
 	}
 
