@@ -120,10 +120,25 @@ a.popup-button:active{
 }
 /* end sections */
 
-#appetitSaveBtn {
+/* save ui */
+#appetit_save_ui {
 	position: fixed; z-index: 999999;
 	right: -2px;
-	top: 130px;
+	top: 50%;	
+}
+#appetitSaveInfo {
+	position: absolute;
+	background-color: #23282d;
+	top: -80px;
+	border-radius: 4px;
+	color: #d6d6d6;
+	display: none;
+}
+.save_info_container {
+	margin: 15px 20px;
+	text-align: center;
+}
+.save-entry-ui {	
 	padding: 15px 20px;
 	background-color: #23282d;
 	border-radius: 4px;
@@ -133,9 +148,19 @@ a.popup-button:active{
 #appetitSaveBtn:hover {
 	background-color: #52bece;
 }
-.save_label {
+.save_label, .save_label_info {
 	margin-left: 10px;
 }
+.save_label_info {
+	font-size: 14px;
+}
+.save_spinner {
+	display: inline-block; vertical-align: middle;
+}
+.save_spinner img {
+	width: 22px;
+}
+/* end save ui */
 
 /* utils */
 .centered-content {

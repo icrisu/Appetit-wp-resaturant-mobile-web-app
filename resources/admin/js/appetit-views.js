@@ -109,6 +109,7 @@ var AViews = function() {
 						break;
 					}
 				}
+				this.AppetitAdmin.save();
 			}
 
 			this.addMenuItem = function(val) {
@@ -118,6 +119,7 @@ var AViews = function() {
 				menuItem.init();
 				this.refreshMenu();
 				this.menuItems.push(menuItem);
+				this.AppetitAdmin.save();
 			}
 
 			this.addMenuItemFromExistingElement = function(itemUI) {
@@ -156,6 +158,7 @@ var AViews = function() {
 
 			this.handleSort = function(from, to) {
 				this.menuItems.splice(to, 0, this.menuItems.splice(from, 1)[0]);
+				this.AppetitAdmin.save();
 			}
 
 			this.refreshMenu = function() {

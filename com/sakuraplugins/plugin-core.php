@@ -60,7 +60,8 @@ class AppetitCore {
 			wp_register_script( 'appetit_views', APPETIT_ADMIN_URI.'/js/appetit-views.js', array('jquery'), FALSE, TRUE);
 			wp_enqueue_script('appetit_views');
 			wp_register_script( 'appetit_admin', APPETIT_ADMIN_URI.'/js/appetit-admin.js', array('appetit_views'), FALSE, TRUE);
-			wp_enqueue_script('appetit_admin');										
+			wp_localize_script( 'appetit_admin', 'AppetitHelper', array('APPETIT_ADMIN_URI' => APPETIT_ADMIN_URI) );
+			wp_enqueue_script('appetit_admin');													
 		}
 
 	}
