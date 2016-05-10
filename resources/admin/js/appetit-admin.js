@@ -45,6 +45,17 @@ AppetitAdmin.prototype.handleSectionRemove = function(sectionView) {
 	this.save();
 };
 
+AppetitAdmin.prototype.handleSectionRemove = function(sectionView) {
+	for (var i = 0; i < this.sections.length; i++) {
+		if (this.sections[i].cid === sectionView.cid) {
+			this.sections.splice(i, 1);
+			this.refreshSections();
+			break;
+		}
+	}
+	this.save();
+};
+
 AppetitAdmin.prototype.handleSort = function(from, to) {
     this.sections.splice(to, 0, this.sections.splice(from, 1)[0]);
     this.save();
@@ -65,7 +76,8 @@ AppetitAdmin.prototype.initJQUI = function(first_argument) {
 		'collapsible': true,
 		animate: {
 		    duration: 200
-		}			
+		},
+		active: false
 	});
 
 	jQuery('#sections_accordion').sortable({
@@ -117,12 +129,15 @@ AppetitAdmin.prototype.save = function() {
 
 AppetitAdmin.prototype.saveInit = function() {
 	var _self = this;
-	var sectionsData = this.serialize();	
+	var data = this.serialize();
+
 	jQuery.post(
 	    ajaxurl, 
 	    {
 	        'action': 'appetit_admin_api',
-	        'sectionsData':   sectionsData
+	        'sectionsData':   data.sectionsData,
+	        'welcomeData': data.welcomeData,
+	        'optionsData': data.optionsData
 	    }, 
 	    function(response){
 	    	try {
@@ -146,7 +161,7 @@ AppetitAdmin.prototype.serialize = function() {
 	_.each(this.sections, function(sectionView) {
 		sectionsData.push(sectionView.serialize());
 	});
-	return sectionsData;
+	return {sectionsData: sectionsData, welcomeData: this.welcomeView.serialize(), optionsData: this.optionsView.serialize()};
 };
 
 AppetitAdmin.prototype.initExistingData = function(first_argument) {
@@ -180,12 +195,23 @@ AppetitAdmin.prototype.createSaveButton = function() {
 		].join('')));
 };
 
+AppetitAdmin.prototype.initWelcome = function() {
+	this.welcomeView = new AppetitViews.WelcomeView(this);
+};
+
+AppetitAdmin.prototype.initOptions = function() {
+	this.optionsView = new AppetitViews.OptionsView(this);	
+};
+
 AppetitAdmin.prototype.init = function() {
 	this.createSaveButton();
 	this.sectionsUI = jQuery('#sections_accordion');
 	this.initJQUI();
 	this.initEvents();
-	this.sections = [];
+	this.sections = [];	
+
+	this.initWelcome();
+	this.initOptions();
 	this.initExistingData();
 	jQuery('.appetit-admin-content').css('display', 'block');	
 };

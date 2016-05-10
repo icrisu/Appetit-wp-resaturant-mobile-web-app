@@ -5,15 +5,12 @@
 */
 class AppetitHeader
 {
-	private $_data;
-	function __construct($data = null) {
-		$this->data = $data;			
-	}
-
-	public function render() {
+	public static function render() {
+		$appetitInfo = get_plugin_data(WEDX_FILE, $markup = true, $translate = true );
 		?>
 		<div class="appetit-admin-header">
 			<img src="<?php echo APPETIT_ADMIN_URI . '/img/admin-logo.png'; ?>" alt="logo" />
+			<p class="appetitInfo">Version <?php echo $appetitInfo['Version']?></p>
 		</div>
 		<?php
 	}

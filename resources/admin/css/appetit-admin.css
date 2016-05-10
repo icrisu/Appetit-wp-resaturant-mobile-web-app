@@ -21,6 +21,7 @@
 	background-color: #23282d;
 	padding: 10px;
 	margin-top: 8px;
+	margin-right: 20px;
 	color: #FFFFFF;
 }
 
@@ -107,12 +108,25 @@ a.popup-button:active{
 .section_img_ui img, .menu_img_ui img {
 	max-width: 50px;
 }
+
+.generic_thumb_ui {
+	display: block;
+	margin: 20px 0px;
+	vertical-align: middle;
+}
+.generic_thumb_ui img {
+	max-width: 200px;
+}
+
 .section-space-line {
 	margin: 20px 0px;
 	height: 1px; background-color: #F2F2F2;
 }
-.item_small_description {
+.item_small_description, .homepage-small-description {
 	margin-top: 25px; width: 50%; min-height: 100px;
+}
+.homepage-small-description {
+	margin-top: 0px;
 }
 .addMenuItemBTN {
 	font-size: 18px !important;
@@ -124,7 +138,7 @@ a.popup-button:active{
 #appetit_save_ui {
 	position: fixed; z-index: 999999;
 	right: -2px;
-	top: 50%;	
+	top: 35%;	
 }
 #appetitSaveInfo {
 	position: absolute;
@@ -163,6 +177,12 @@ a.popup-button:active{
 /* end save ui */
 
 /* utils */
+.admin_medium_headline {
+	font-size: 18px !important;
+}
+.admin_small_headline {
+	font-size: 16px !important;	
+}
 .centered-content {
 	text-align: center;
 }
@@ -260,4 +280,28 @@ a.content-large-button:active{
 
 .two-thirds {
 	width: 66%;
+}
+
+.hr-line {
+	background-color: #F2F2F2;
+	height: 1px;
+	margin: 20px 0px;
+}
+
+.appetit_notification {
+	background-color: #d5f8fd;
+	color: #178a9c;
+	padding: 10px 10px;
+	border-style: solid; border-width: 1px; border-color: #45c8dc; border-radius: 2px;
+}
+
+.appetitInfo {
+	float: right;
+	color: #979596;
+	line-height: 40px;
+	margin-right: 10px;
+	margin-top: 18px;
+    font-weight: 300;
+    font-family: 'Open Sans', sans-serif !important;
+    font-size: 14px; 	
 }

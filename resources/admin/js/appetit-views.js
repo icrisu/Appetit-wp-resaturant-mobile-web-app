@@ -71,6 +71,7 @@ var AViews = function() {
 						if (data[0]) {
 							this.el.find('.section_img_ui').html('<img src="' + data[0].iconUrl + '" alt="" />');
 							this.el.find('.section_img_id').val(data[0].id);
+							this.AppetitAdmin.save();
 						}
 					}, this));
 				}, this));
@@ -86,6 +87,10 @@ var AViews = function() {
 				this.el.find('.section_name').on('input', _.bind(function() {
 					this.el.find('.m_title').html(this.el.find('.section_name').val());		
 				}, this));	
+
+				this.el.find('.section_name').focusout(_.bind(function() {
+					this.AppetitAdmin.save();
+				}, this));				
 
 				this.el.find('.addMenuItemBTN').click(_.bind(function(e) {
 					e.preventDefault();
@@ -137,7 +142,8 @@ var AViews = function() {
 					'collapsible': true,
 					animate: {
 					    duration: 200
-					}			
+					},
+					active: false			
 				});
 				
 				this.el.find('.menu_items').sortable({
@@ -198,7 +204,7 @@ var AViews = function() {
 					    	'<input class="menu_img_id" type="hidden" />',
 					    	'<a class="base-button menuImageBTN" href="#"><span class="appetit-upload"></span>Upload image</a>',					    	
 					    	'<div class="clearfix"></div>',
-					    	'<textarea class="item_small_description" placeholder="small description"></textarea>',
+					    	'<textarea id="_desc_' + SakuraPlugins.utils.generateUID() + '" class="item_small_description" placeholder="small description"></textarea>',
 					    '</div>',
 				    '</div>',
 				'</div>'
@@ -230,6 +236,7 @@ var AViews = function() {
 						if (data[0]) {
 							this.el.find('.menu_img_ui').html('<img src="' + data[0].iconUrl + '" alt="" />');
 							this.el.find('.menu_img_id').val(data[0].id);
+							this.SectionView.AppetitAdmin.save();
 						}
 					}, this));
 				}, this));
@@ -244,19 +251,105 @@ var AViews = function() {
 
 				this.el.find('.menu_item_name').on('input', _.bind(function() {
 					this.el.find('.menu_title').html(this.el.find('.menu_item_name').val());		
-				}, this));																				
+				}, this));
+
+				this.el.find('.menu_item_name').focusout(_.bind(function() {
+					this.SectionView.AppetitAdmin.save();
+				}, this));
+
+				this.el.find('.price_input').focusout(_.bind(function() {
+					this.SectionView.AppetitAdmin.save();
+				}, this));
+
+				this.el.find('.item_small_description').focusout(_.bind(function() {
+					this.SectionView.AppetitAdmin.save();
+				}, this));																																
 			}			
 
 			this.serialize = function() {
+				var descrtiptionId = this.el.find('.item_small_description').attr('id');
 				return {
 					menu_item_name: this.el.find('.menu_item_name').val(),
 					price_input: this.el.find('.price_input').val(),
 					menu_img_id: this.el.find('.menu_img_id').val(),	
-					item_small_description: this.el.find('.item_small_description').html()
+					item_small_description: document.getElementById(descrtiptionId).value
 				};
 			}			
 		},
 		//end menu item view	
+
+		//welcome view
+		WelcomeView: function(AppetitAdmin) {
+			this.AppetitAdmin = AppetitAdmin;
+			this.el = jQuery('#welcome');
+
+			this.el.find('.welcomeImageBTN').click(_.bind(function(e) {
+				e.preventDefault();
+				this.handleImageUpload();
+			}, this));	
+
+			this.handleImageUpload = function() {		
+				SakuraPlugins.utils.openMedia(false, _.bind(function(data) {
+					if (data[0]) {
+						this.el.find('.welcome-logo-ui').html('<img src="' + data[0].iconUrl + '" alt="" />');
+						this.el.find('.welcome-logo-id').val(data[0].id);
+						this.AppetitAdmin.save();
+					}
+				}, this));				
+			}
+
+			this.el.find('.enter_app_label').focusout(_.bind(function() {
+				this.AppetitAdmin.save();
+			}, this));
+
+			this.el.find('.homepage-small-description').focusout(_.bind(function() {
+				this.AppetitAdmin.save();
+			}, this));			
+
+			this.serialize = function() {
+				return {					
+					welcomeAbout: document.getElementById('homepage-small-description').value,
+					welcomeLogoId: this.el.find('.welcome-logo-id').val(),
+					welcomeLabel: this.el.find('.enter_app_label').val()
+				}
+			}
+
+		},
+		//end welcome view
+
+		//options view
+		OptionsView: function(AppetitAdmin) {
+			this.AppetitAdmin = AppetitAdmin;
+			this.el = jQuery('#options');
+			var _self = this;
+
+			var currencyPositionInput = this.el.find('.currency_position');
+		    this.el.find('.currency_position_cb').change(function() {
+		        if(jQuery(this).is(":checked")) {
+		        	currencyPositionInput.val(1);
+		        } else {
+		        	currencyPositionInput.val(0);
+		        }
+		        _self.AppetitAdmin.save();
+		    });			
+
+			this.el.find('.currency_symbol').focusout(_.bind(function() {
+				this.AppetitAdmin.save();
+			}, this));
+
+			this.el.find('.appetit_slug').focusout(_.bind(function() {
+				this.AppetitAdmin.save();
+			}, this));						
+
+			this.serialize = function() {
+				return {					
+					currencySymbol: this.el.find('.currency_symbol').val(),
+					currencyPosition: this.el.find('.currency_position').val(),
+					appetitSlug: this.el.find('.appetit_slug').val()
+				}
+			}			
+		},
+		//end options view
 
 		//section name popup
 		SectionNamePopup: function(callback) {
