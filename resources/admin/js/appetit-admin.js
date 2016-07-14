@@ -213,5 +213,9 @@ AppetitAdmin.prototype.init = function() {
 	this.initWelcome();
 	this.initOptions();
 	this.initExistingData();
-	jQuery('.appetit-admin-content').css('display', 'block');	
+	jQuery('.appetit-admin-content').css('display', 'block');
+	jQuery('.tooltip').tooltipster({
+		theme: 'tooltipster-borderless',
+		delay: 100
+	});
 };

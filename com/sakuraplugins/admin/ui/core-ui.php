@@ -94,7 +94,7 @@ class CoreUI {
 				$itemSmallDescription = isset($menuItem['item_small_description']) ? $menuItem['item_small_description'] : '';
 			?>
 				<div class="menu_item_ui">
-				    <h3 class="section-header"><span>| </span><span class="menu_title"><?php echo wptexturize($menuItemName); ?></span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>
+				    <h3 class="section-header"><span>| </span><span class="menu_title"><?php echo wptexturize($menuItemName); ?></span> <span class="appetit-move a-pull-right" title="Move / Drag to change order"></span><span style="margin-right: 10px;" title="Remove" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span><span style="margin-right: 10px;" class="menuCloneBTN appetit-copy a-pull-right" title="Duplicate"></h3>
 				    <div class="clearfix">
 					    <div class="section-content-header">
 					    	<span class="input_label_prepend">Name</span><input class="generic_input one-third input_margin menu_item_name" placeholder="Item name" type="text" value="<?php echo wptexturize($menuItem['menu_item_name']); ?>" />

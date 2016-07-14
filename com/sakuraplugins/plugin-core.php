@@ -21,6 +21,13 @@ class AppetitCore {
 		$this->_registerCPT();
 	}
 
+	//admin init handler
+	public function adminInitHandler() {
+		if (isset($this->_appetitCPT)) {
+			$this->_appetitCPT->addMetaBox(__('Appetit page', WX_PLUGIN_TEXTDOMAIN), 'meta_box_page_8172398', 'meta_box_appetit');
+		}		
+	}
+
 	//menu event
 	public function admin_menu() {
 		$CoreUI = new CoreUI();
@@ -34,30 +41,44 @@ class AppetitCore {
 		$current_screen = get_current_screen();
 		$screenID = $current_screen->id;
 	
-		//post type page OR options page
-		if ($current_screen->post_type === $this->_appetitCPT->getPostSlug() || (substr($screenID, -strlen($this->_optionPageSlug)) === $this->_optionPageSlug)) {
+		//options page
+		if ((substr($screenID, -strlen($this->_optionPageSlug)) === $this->_optionPageSlug)) {
 			
 			AppetitUtils::enqueAdminFontsFrom(AppetitOptions::getAdminFonts());
 
 			wp_register_style('appetit_admin_icons', APPETIT_ADMIN_URI . '/css/style.css');
 			wp_enqueue_style('appetit_admin_icons');
 
+			wp_register_style('appetit_tooltipster_style', APPETIT_ADMIN_URI . '/css/tooltipster.bundle.min.css');
+			wp_enqueue_style('appetit_tooltipster_style');		
+
 			wp_register_style('appetit_admin_style', APPETIT_ADMIN_URI . '/css/appetit-admin.css');
 			wp_enqueue_style('appetit_admin_style');			
 			
 			wp_enqueue_script('jquery');
+			wp_register_script( 'sakura_tooltipster_js', APPETIT_ADMIN_URI.'/js/tooltipster.bundle.min.js', array('jquery'), FALSE, TRUE);
+			wp_enqueue_script('sakura_tooltipster_js');
+
 			wp_enqueue_script('underscore');
 			wp_register_script( 'sakura_utils', APPETIT_ADMIN_URI.'/js/sakura-utils.js', array('jquery'), FALSE, TRUE);
-			wp_enqueue_script('sakura_utils');			
+			wp_enqueue_script('sakura_utils');
 
 			wp_enqueue_script('media-upload');
 			wp_enqueue_media();			
 		}	
 
-		//post type page
+		//post type page		
 		if ($current_screen->post_type === $this->_appetitCPT->getPostSlug()) {
-			//echo "----------------lllllllll";
-			//TBD - enque scripts
+
+			AppetitUtils::enqueAdminFontsFrom(AppetitOptions::getAdminFonts());
+
+			wp_register_style('appetit_admin_style', APPETIT_ADMIN_URI . '/css/appetit-admin.css');
+			wp_enqueue_style('appetit_admin_style');
+			
+			wp_enqueue_script('jquery');
+
+			wp_register_script( 'appetit_admin_cpt', APPETIT_ADMIN_URI.'/js/appetit-admin-cpt.js', array('jquery'), FALSE, TRUE);
+			wp_enqueue_script('appetit_admin_cpt');
 		}
 
 		//options page
@@ -99,8 +120,8 @@ class AppetitCore {
 	//register custom post type
 	private function _registerCPT() {
 		$settings = array('post_custom_meta_data' => self::APPETIT_CPT_META, 'post_type' => self::APPETIT_CPT_TYPE, 'name' => 'Appetit', 'menu_icon' => APPETIT_ADMIN_URI . '/img/icon.png',
-		'singular_name' => 'Appetit', 'rewrite' => 'appetit-pages', 'add_new' => 'New page / app',
-		'edit_item' => 'Edit', 'new_item' => 'New page / app', 'view_item' => 'View page', 'search_items' => 'Search pages',
+		'singular_name' => 'Appetit', 'rewrite' => 'appetit-pages', 'add_new' => 'New Appetit Page',
+		'edit_item' => 'Edit', 'new_item' => 'New Appetit Page', 'view_item' => 'View page', 'search_items' => 'Search pages',
 		'not_found' => 'No page found', 'not_found_in_trash' => 'Page not found in trash', 
 		'supports' => array('title'));
 
@@ -110,15 +131,37 @@ class AppetitCore {
 	}
 
 	//admin bar custom
-	public function adminBarCustom(){
-		if(function_exists('get_current_screen')){
+	public function adminBarCustom() {
+		if (function_exists('get_current_screen')) {
 			$current_screen = get_current_screen();		
 			if($current_screen->post_type == self::APPETIT_CPT_TYPE){			
 				require_once(dirname(__FILE__) . '/admin/ui/appetit-admin-header.php');
 				AppetitHeader::render();
 			}
 		}
-	}		
+	}
+
+	/**
+	 * SAVE POST EXTRA DATA
+	 */
+	 public function savePostHandler() {
+		global $post;						
+		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ){
+			return $post_id;
+		}
+		if (!current_user_can('edit_posts') || !current_user_can('publish_posts')) {
+			return;
+		}
+			//save portfolio data
+		if (isset($this->_appetitCPT) && isset($_POST['post_type'])) {
+			if($this->_appetitCPT->getPostSlug() == $_POST['post_type']) {	
+				if(current_user_can( 'edit_posts', $post->ID ) && isset($_POST[$this->_appetitCPT->getPostCustomMeta()])){							
+					update_post_meta($post->ID, $this->_appetitCPT->getPostCustomMeta(), $_POST[$this->_appetitCPT->getPostCustomMeta()]);
+				}		 
+			}						
+		}				
+												
+	 }	
 
 	//init listeners
 	public function init($opts=NULL){
@@ -127,11 +170,10 @@ class AppetitCore {
 		add_action( 'admin_enqueue_scripts', array($this, 'adminEnqueueScriptsHandler' ) );
 		add_action( 'wp_ajax_appetit_admin_api', array( $this, 'appetit_admin_api' ) );
 		add_action( 'wp_before_admin_bar_render', array($this, 'adminBarCustom' ) );
-
-		/*
-		add_action('after_setup_theme', array($this, 'after_theme_setup'));			
 		add_action('admin_init', array($this, 'adminInitHandler'));
-		add_action('save_post', array($this, 'savePostHandler'));								
+		add_action('save_post', array($this, 'savePostHandler'));
+		/*
+		add_action('after_setup_theme', array($this, 'after_theme_setup'));													
 		add_action('admin_menu', array($this, 'adminMenuHandler'));				
 		add_filter("single_template", array($this, 'sk_plugin_single'));
 		register_deactivation_hook($opts['PLUGIN_FILE'], array($this, 'plugin_deactivate'));

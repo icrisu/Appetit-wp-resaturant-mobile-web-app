@@ -81,7 +81,8 @@ var AViews = function() {
 					if (confirm('Are you sure you want to remove this section?')) {
 						_self.el.remove();
 						_self.AppetitAdmin.handleSectionRemove(_self);
-					}					
+					}
+					return false;			
 				}, this));
 
 				this.el.find('.section_name').on('input', _.bind(function() {
@@ -127,12 +128,39 @@ var AViews = function() {
 				this.AppetitAdmin.save();
 			}
 
+			this.addMenuItemFromExistingDataClone = function(itemData, item) {
+				var menuItem = new AppetitViews.MenuItemView(this);
+				menuItem.setData({
+					itemName: itemData.menu_item_name + ' - Copy',
+					price_input: itemData.price_input,
+					menu_img_id: itemData.menu_img_id,
+					item_small_description: itemData.item_small_description,
+					iconUrl: itemData.iconUrl
+				});
+				menuItem.insertAfter(item.el);
+				menuItem.init();
+				this.refreshMenu();
+				this.menuItems.splice(this.findItemIndex(item) + 1, 0, menuItem);
+				this.AppetitAdmin.save();
+			}
+
 			this.addMenuItemFromExistingElement = function(itemUI) {
 				var menuItem = new AppetitViews.MenuItemView(this);
 				menuItem.setElement(itemUI);
 				menuItem.init();
 				this.refreshMenu();
 				this.menuItems.push(menuItem);
+			}
+
+			this.findItemIndex = function(itemUI) {
+				var out = 0;
+				for (var i = 0; i < this.menuItems.length; i++) {
+					if (this.menuItems[i].cid === itemUI.cid) {
+						out = i;
+						break;
+					}
+				}
+				return out;
 			}
 
 			this.initJQUI = function() {
@@ -195,16 +223,16 @@ var AViews = function() {
 			this.buildHtml = function(data) {
 				return [
 				'<div class="menu_item_ui">',
-				    '<h3 class="section-header"><span>| </span><span class="menu_title"> ' + data.itemName + ' </span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>',
+				    '<h3 class="section-header"><span>| </span><span class="menu_title"> ' + ((data.itemName) ? data.itemName : "") + ' </span> <span class="appetit-move a-pull-right" title="Move / Drag to change order"></span><span style="margin-right: 10px;" class="menuRemoveBTN appetit-trashcan2 a-pull-right" title="Remove"></span><span style="margin-right: 10px;" class="menuCloneBTN appetit-copy a-pull-right" title="Duplicate"></span></h3>',
 				    '<div class="clearfix">',
 					    '<div class="section-content-header">',
-					    	'<span class="input_label_prepend">Name</span><input class="generic_input one-third input_margin menu_item_name" placeholder="Item name" type="text" value="'+ data.itemName +'" />',
-					    	'<span class="input_label_prepend">Price</span><input class="generic_input price_input" type="number" min="0" />',
-					    	'<div class="menu_img_ui"></div>',
-					    	'<input class="menu_img_id" type="hidden" />',
+					    	'<span class="input_label_prepend">Name</span><input class="generic_input one-third input_margin menu_item_name" placeholder="Item name" type="text" value="'+ ((data.itemName) ? data.itemName : "") +'" />',
+					    	'<span class="input_label_prepend">Price</span><input class="generic_input price_input" type="number" min="0" value="' + ((data.price_input) ? data.price_input : "") + '" />',
+					    	'<div class="menu_img_ui">' + ((data.iconUrl) ? '<img src="' + data.iconUrl + '" alt="" />' : "") + '</div>',
+					    	'<input class="menu_img_id" type="hidden" value="' + ((data.menu_img_id) ? data.menu_img_id : "") + '" />',
 					    	'<a class="base-button menuImageBTN" href="#"><span class="appetit-upload"></span>Upload image</a>',					    	
 					    	'<div class="clearfix"></div>',
-					    	'<textarea id="_desc_' + SakuraPlugins.utils.generateUID() + '" class="item_small_description" placeholder="small description"></textarea>',
+					    	'<textarea id="_desc_' + SakuraPlugins.utils.generateUID() + '" class="item_small_description" placeholder="small description">' + ((data.item_small_description) ? data.item_small_description : "") + '</textarea>',
 					    '</div>',
 				    '</div>',
 				'</div>'
@@ -221,6 +249,11 @@ var AViews = function() {
 
 			this.renderTo = function(UI) {
 				UI.append(this.el);
+				return this;
+			}
+
+			this.insertAfter = function(uiItem) {
+				this.el.insertAfter(uiItem);
 				return this;
 			}
 
@@ -246,8 +279,15 @@ var AViews = function() {
 					if (confirm('Are you sure you want to remove this item?')) {
 						_self.el.remove();
 						this.SectionView.handleItemRemove(_self);
-					}					
+					}
+					return false;					
 				}, this));
+
+				this.el.find('.menuCloneBTN').click(_.bind(function(e) {
+					e.preventDefault();
+					this.SectionView.addMenuItemFromExistingDataClone(this.serialize(true), this);	
+					return false;
+				}, this));				
 
 				this.el.find('.menu_item_name').on('input', _.bind(function() {
 					this.el.find('.menu_title').html(this.el.find('.menu_item_name').val());		
@@ -266,14 +306,18 @@ var AViews = function() {
 				}, this));																																
 			}			
 
-			this.serialize = function() {
+			this.serialize = function(getIconUrl) {
 				var descrtiptionId = this.el.find('.item_small_description').attr('id');
-				return {
+				var out = {
 					menu_item_name: this.el.find('.menu_item_name').val(),
 					price_input: this.el.find('.price_input').val(),
 					menu_img_id: this.el.find('.menu_img_id').val(),	
 					item_small_description: document.getElementById(descrtiptionId).value
 				};
+				if (getIconUrl) {
+					out.iconUrl = this.el.find('.menu_img_ui img').attr('src');
+				}
+				return out;
 			}			
 		},
 		//end menu item view	
@@ -412,7 +456,7 @@ var AViews = function() {
 			this.okEvent = function() {
 				var val = this.popupUI.find('.section_name_popup_input').val();
 				if (val === '') {
-					alert((this.dataObj.alert || 'Please enter a section name!'));
+					alert((this.dataObj && this.dataObj.alert || 'Please enter a section name!'));
 					return;
 				}	
 				this.callback(val);				

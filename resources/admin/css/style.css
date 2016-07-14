@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'appetit';
-    src:    url('fonts/appetit.eot?i9i3z2');
-    src:    url('fonts/appetit.eot?i9i3z2#iefix') format('embedded-opentype'),
-        url('fonts/appetit.ttf?i9i3z2') format('truetype'),
-        url('fonts/appetit.woff?i9i3z2') format('woff'),
-        url('fonts/appetit.svg?i9i3z2#appetit') format('svg');
+    src:    url('fonts/appetit.eot?jalbi8');
+    src:    url('fonts/appetit.eot?jalbi8#iefix') format('embedded-opentype'),
+        url('fonts/appetit.ttf?jalbi8') format('truetype'),
+        url('fonts/appetit.woff?jalbi8') format('woff'),
+        url('fonts/appetit.svg?jalbi8#appetit') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -24,6 +24,9 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.appetit-content_copy:before {
+    content: "\e90e";
+}
 .appetit-save:before {
     content: "\e90c";
 }
@@ -42,17 +45,8 @@
 .appetit-floppy-o:before {
     content: "\e90b";
 }
-.appetit-move2:before {
-    content: "\e905";
-}
-.appetit-move:before {
-    content: "\e903";
-}
-.appetit-trashcan2:before {
-    content: "\e902";
-}
-.appetit-trashcan:before {
-    content: "\e901";
+.appetit-copy:before {
+    content: "\e90d";
 }
 .appetit-floppy-disk:before {
     content: "\e90a";

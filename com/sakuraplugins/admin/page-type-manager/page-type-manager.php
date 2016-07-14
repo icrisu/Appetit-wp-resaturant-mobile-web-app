@@ -1,0 +1,40 @@
+<?php
+
+/**
+* Page Type Manager
+*/
+class PageTypeManager
+{
+	
+	private $customPostMeta;
+	private $customPostOptions;
+
+	function __construct($customPostMeta, $customPostOptions) {
+		$this->customPostMeta = $customPostMeta;
+		$this->customPostOptions = $customPostOptions;
+	}
+
+	private static $availableTypes = array(
+		array('type' => 'mobileapp', 'displayName' => 'Appetit Mobile Web App', 'execClass' => 'AppetitMobilePage', 'path' => '/appetit-mobile-page.php'),
+		array('type' => 'web1', 'displayName' => 'Web app 1', 'execClass' => 'AppetitMobilePage', 'path' => '/appetit-mobile-page.php')	
+	);
+
+	//get page types
+	public function getTypes() {
+		return self::$availableTypes;
+	}
+
+	//execute type in admin
+	public function execute($type) {
+		for ($i=0; $i < sizeof(self::$availableTypes); $i++) { 
+			if ($type==self::$availableTypes[$i]['type']) {
+				require_once(dirname(__FILE__) . self::$availableTypes[$i]['path']);
+				$page = new self::$availableTypes[$i]['execClass']($this->customPostMeta, $this->customPostOptions);
+				$page->execRender();
+				break;
+			}
+		}
+	}
+
+}
+?>
