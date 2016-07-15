@@ -6,10 +6,12 @@ class AppetitGenericPage
 {
 	protected $customPostMeta;
 	protected $customPostOptions;
+	protected $data;
 
-	function __construct($customPostMeta, $customPostOptions) {
+	function __construct($customPostMeta, $customPostOptions, $data = null) {
 		$this->customPostMeta = $customPostMeta;
 		$this->customPostOptions = $customPostOptions;
+		$this->data = $data;
 	}
 }
 ?>

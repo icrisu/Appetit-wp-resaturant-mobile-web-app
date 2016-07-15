@@ -157,11 +157,20 @@ class AppetitCore {
 			if($this->_appetitCPT->getPostSlug() == $_POST['post_type']) {	
 				if(current_user_can( 'edit_posts', $post->ID ) && isset($_POST[$this->_appetitCPT->getPostCustomMeta()])){							
 					update_post_meta($post->ID, $this->_appetitCPT->getPostCustomMeta(), $_POST[$this->_appetitCPT->getPostCustomMeta()]);
-				}		 
+				}
 			}						
 		}				
 												
-	 }	
+	 }
+
+	//single template
+	public function sk_plugin_single($single_template){
+		global $post;
+		if ($post->post_type == self::APPETIT_CPT_TYPE) {			
+			$single_template = dirname( __FILE__ ) . '/single/appetit_cpt-template.php';										
+		}
+		return $single_template;
+	}
 
 	//init listeners
 	public function init($opts=NULL){
@@ -172,10 +181,10 @@ class AppetitCore {
 		add_action( 'wp_before_admin_bar_render', array($this, 'adminBarCustom' ) );
 		add_action('admin_init', array($this, 'adminInitHandler'));
 		add_action('save_post', array($this, 'savePostHandler'));
+		add_filter('single_template', array($this, 'sk_plugin_single'));
 		/*
 		add_action('after_setup_theme', array($this, 'after_theme_setup'));													
-		add_action('admin_menu', array($this, 'adminMenuHandler'));				
-		add_filter("single_template", array($this, 'sk_plugin_single'));
+		add_action('admin_menu', array($this, 'adminMenuHandler'));						
 		register_deactivation_hook($opts['PLUGIN_FILE'], array($this, 'plugin_deactivate'));
 		add_action('wp_ajax_nopriv_wedxrsvp', array($this, 'ajaxRSVPHandler'));
 		add_action('wp_ajax_wedxrsvp', array($this, 'ajaxRSVPHandler'));

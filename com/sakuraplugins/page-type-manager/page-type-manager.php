@@ -15,8 +15,8 @@ class PageTypeManager
 	}
 
 	private static $availableTypes = array(
-		array('type' => 'mobileapp', 'displayName' => 'Appetit Mobile Web App', 'execClass' => 'AppetitMobilePage', 'path' => '/appetit-mobile-page.php'),
-		array('type' => 'web1', 'displayName' => 'Web app 1', 'execClass' => 'AppetitMobilePage', 'path' => '/appetit-mobile-page.php')	
+		array('type' => 'mobileapp', 'displayName' => 'Appetit Mobile Web App', 'execClass' => 'AppetitMobilePage', 'path' => '/mobile-app/appetit-mobile-page.php'),
+		array('type' => 'web1', 'displayName' => 'Web app 1', 'execClass' => 'AppetitMobilePage', 'path' => '/mobile-app/appetit-mobile-page.php')
 	);
 
 	//get page types
@@ -25,12 +25,16 @@ class PageTypeManager
 	}
 
 	//execute type in admin
-	public function execute($type) {
+	public function execute($type, $isFrontend = false) {
 		for ($i=0; $i < sizeof(self::$availableTypes); $i++) { 
 			if ($type==self::$availableTypes[$i]['type']) {
 				require_once(dirname(__FILE__) . self::$availableTypes[$i]['path']);
 				$page = new self::$availableTypes[$i]['execClass']($this->customPostMeta, $this->customPostOptions);
-				$page->execRender();
+				if ($isFrontend) {
+					$page->execRenderFrontend();
+				} else {
+					$page->execRenderAdmin();
+				}				
 				break;
 			}
 		}

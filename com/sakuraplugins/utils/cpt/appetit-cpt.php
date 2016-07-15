@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__) . '/generic-post-type.php');
-require_once(dirname(__FILE__) . '../../../admin/page-type-manager/page-type-manager.php');
+require_once(dirname(__FILE__) . '/../../page-type-manager/page-type-manager.php');
 
 /**
 * create appetit custom post type
@@ -15,9 +15,7 @@ class AppetitCPT extends AppetitGenericPostType
 		$customPostOptions = get_post_meta($post->ID, $this->getPostCustomMeta(), false);
 		$pageType = (isset($customPostOptions[0]['pageType'])) ? $customPostOptions[0]['pageType'] : false;	
 		$customPostMeta = $this->getPostCustomMeta();
-		$pageManager = new PageTypeManager($customPostMeta, $customPostOptions);
-		
-		print_r($customPostOptions);
+		$pageManager = new PageTypeManager($customPostMeta, $customPostOptions);		
 		?>
 
 		<!--choose page type-->
