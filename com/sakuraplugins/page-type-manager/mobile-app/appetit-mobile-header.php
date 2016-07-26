@@ -12,7 +12,7 @@
 
 	    <link rel="stylesheet" type="text/css" href="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>build/af.ui.css" />
 
-	    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,300italic' rel='stylesheet' type='text/css' />
+	    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,300,300italic' rel='stylesheet' type='text/css' />
 
 	    <link rel="stylesheet" type="text/css" href="<?php echo APPETIT_FRONT_URI . '/fonts/'; ?>style.css" />
 

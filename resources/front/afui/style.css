@@ -8,6 +8,7 @@ body, a, p, div, h1 {
 
 .panel-content {
 	padding: 10px;
+	padding-bottom: 20px;
 }
 
 .view header {
@@ -52,6 +53,26 @@ body, a, p, div, h1 {
 	float: left;
 }
 
+.app-mobile-button-cart {
+	color: #F2F2F2;
+	float: right;
+	position: relative;
+}
+
+.cart-info {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: #ff6e48;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 12px !important;
+    text-align: center;
+    padding-top: 1px;
+}
+
 .hidden_data {
 	display: none;
 }
@@ -81,6 +102,14 @@ body, a, p, div, h1 {
 	margin-left: 10px;
 	font-size: 18px;
     vertical-align: text-top;	
+}
+
+.strong_price {
+	font-weight: 600;
+}
+
+#app-header .backButton {
+	display: none;
 }
 /* end general settings */
 
@@ -154,6 +183,69 @@ body, a, p, div, h1 {
 }
 /* end category page */
 
+/* item page */
+.appetit-mobile-item-img-ui {
+	position: relative;
+}
+.appetit-mobile-item-image {
+	display: block;
+}
+.appetit-mobile-item-img-ui-cover {
+	position: absolute; width: 100%; height: 100%; left: 0px; top: 0px;
+	background: rgba(0, 0, 0, .4);
+}
+.appetit-mobile-item-img-ui-title {
+	color: #f9f9f9;
+	text-align: center;
+	margin-top: 20%;
+	font-size: 18px;
+}
+.appetit-mobile-item-img-ui-categ {
+	color: #bab9b6;
+	text-align: center;
+	font-weight: 300;
+	font-size: 16px;
+}
+
+.appetit-mobile-item-price-ui {
+	background-color: #f4f4f4;
+	padding: 10px 10px;
+	margin-bottom: 10px;
+}
+/* end item page */
+
+/* cart page */
+.appetit-mobile-cart-info {
+	color: #a5a4a4;
+	text-align: center;
+}
+
+.appetit-mobile-order-title {
+	margin: 10px;
+}
+
+.remove-order-item-ui {
+	margin-top: 17px;
+}
+
+.remove-order-item-btn:link {
+	text-decoration: none;
+	color: #cccccc;
+	font-size: 22px;
+}
+.remove-order-item-btn:visited {
+	text-decoration: none;
+	color: #cccccc;
+}
+.remove-order-item-btn:hover {
+	text-decoration: none;
+}
+.remove-order-item-btn:active {
+	text-decoration: none;
+}
+/* end cart page */
+
+/* amount controler ui */
 .appetit-item-amount-controler-ui {
 	margin-top: 10px;
 }
@@ -164,11 +256,22 @@ body, a, p, div, h1 {
 	border-color: #bdc2c7;	
 }
 
-.appetit-item-amont-btn {
+.appetit-item-amont-btn:link {
 	padding: 9px;
 	text-decoration: none;
 	display: inline-block;
 	color: #000000;
+}
+.appetit-item-amont-btn:visited {
+	color: #000000;
+}
+.appetit-item-amont-btn:hover {
+	color: #000000;
+	background-color: #fdf0ed;
+}
+.appetit-item-amont-btn:active {
+	color: #000000;
+	background-color: #fdf0ed;
 }
 
 .appetit-item-count {
@@ -177,9 +280,47 @@ body, a, p, div, h1 {
 	padding: 9px;
 }
 
+.appetit-mobile-save-item-btn {
+	margin-left: 20px;
+}
+
+.appetit-mobile-save-icon {
+	margin-right: 10px;
+}
+
+.appetit-item-amount-controler-in-cover {
+	position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 100%;
+}
+
+.appetit-item-amount-controler-in-cover .appetit-mobile-save-item-btn {
+	float: right;
+	margin-right: 20px;
+}
+
+.appetit-item-amount-controler-in-cover .appetit-item-amount-controler {
+	background-color: #FFFFFF;
+}
+
+.item-content-description {
+
+}
+
+/* end amount controler ui */
+
 
 
 /* utils */
+.appetit-hide {
+	display: none;
+}
+
+.appetit-show {
+	display: block;
+}
+
 .pull-left {
 	float: left;
 }

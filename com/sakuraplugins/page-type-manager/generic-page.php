@@ -49,6 +49,7 @@ class AppetitGenericPage
 					
 					$itemData = $this->sectionsData[$i]['section_items'][$k];
 					$itemData['inSection'] = $this->sectionsData[$i]['menu_section_id'];
+					$itemData['sectionName'] = $this->sectionsData[$i]['section_name'];
 					array_push($this->allMenuItems, $itemData);					
 				}
 			}
