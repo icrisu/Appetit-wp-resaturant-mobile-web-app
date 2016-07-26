@@ -1,0 +1,196 @@
+body, a, p, div, h1 {
+	font-family: 'Open Sans', sans-serif;
+}
+/* general settings */
+.panel {
+	padding: 0px;
+}
+
+.panel-content {
+	padding: 10px;
+}
+
+.view header {
+    background: #000000;
+    border: none;
+    border-bottom: 1px solid #000000;
+    color: #F2F2F2;
+}
+
+.view header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    left: 27.5%;
+    color: #ffffff;
+    text-shadow: none;
+}
+.app-mobile-button:link {
+	padding: 9px;
+	text-decoration: none;
+	color: #F2F2F2;
+	display: inline-block;
+}
+
+.app-mobile-button:visited {
+	color: #F2F2F2;
+}
+
+.app-mobile-button:hover {
+	background-color: #353636;
+}
+
+.app-mobile-button:active {
+	background-color: #353636;
+}
+
+.app-mobile-button span {
+	font-size: 26px;
+}
+
+.app-mobile-button-back {
+	color: #F2F2F2;
+	float: left;
+}
+
+.hidden_data {
+	display: none;
+}
+
+.appetit-mobile-base-button:link {
+	display: inline-block;
+	padding: 10px 25px;
+	background-color: #ff6e48;
+	color: #FFFFFF;
+	text-decoration: none;
+	border-radius: 20px;
+}
+
+.appetit-mobile-base-button:visited {
+	color: #FFFFFF;
+}
+
+.appetit-mobile-base-button:hover {
+	background-color: #fd8d70;
+}
+
+.appetit-mobile-base-button:active {
+	background-color: #fd8d70;
+}
+
+.appetit-mobile-base-button-icon {
+	margin-left: 10px;
+	font-size: 18px;
+    vertical-align: text-top;	
+}
+/* end general settings */
+
+
+/* welcome page */
+.app-mobile-logo_ui {
+	text-align: center;
+	margin-top: 12%;
+	margin-bottom: 30px;
+}
+.app-mobile-logo_ui img {
+	display: inline-block;
+	max-width: 50%;
+}
+
+.app-mobile-welcome-text {
+	text-align: center;
+	padding: 10px 20px;
+	color: #6e6e6e;
+}
+
+.app-mobile-welcome-button-label {
+	text-align: center;
+	margin-top: 20px;
+}
+/* end welcome page */
+
+
+/* category page */
+.appetit-list-item {
+    position: relative;
+    display: block;
+    color: inherit;
+    margin: -20px -20px -20px -10px;
+    text-decoration: none;
+    padding: 20px 20px 20px 10px;
+}
+
+.list > li > .appetit-list-item:after {
+    position: absolute;
+    right: 8px;
+    font-family: 'chevron';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    content: "\f054";
+    top: 50%;
+    margin-top: -0.5em;
+    color: inherit;
+}
+
+.appetit-list-item-thumb img {
+	max-width: 70px;
+}
+
+.appetit-list-item-about {
+	margin-left: 15px;
+}
+
+.appetit-list-item-excerpt {
+	color: #bdc2c7;
+}
+
+.appetit-list-item-price {
+	color: #959596;
+	font-style: italic;
+}
+/* end category page */
+
+.appetit-item-amount-controler-ui {
+	margin-top: 10px;
+}
+
+.appetit-item-amount-controler {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #bdc2c7;	
+}
+
+.appetit-item-amont-btn {
+	padding: 9px;
+	text-decoration: none;
+	display: inline-block;
+	color: #000000;
+}
+
+.appetit-item-count {
+	min-width: 30px;
+	text-align: center;
+	padding: 9px;
+}
+
+
+
+/* utils */
+.pull-left {
+	float: left;
+}
+
+.pull-right {
+	float: right;
+}
+
+.clear-fx {
+	clear: both;
+}
+
+
+

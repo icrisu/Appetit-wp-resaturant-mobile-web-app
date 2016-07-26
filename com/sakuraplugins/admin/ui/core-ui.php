@@ -63,6 +63,7 @@ class CoreUI {
 			$sectionsData = $data['sectionsData'];
 			foreach ($sectionsData as $section) {
 				$sectionImageHTML = isset($section['section_img_id']) ? '<img src="' . wp_get_attachment_image_src($section['section_img_id'], 'thumbnail')[0] . '" alt="" />' : '';
+				$menuSectionID = isset($menuItem['menu_section_id']) ? $menuItem['menu_section_id'] : uniqid('_section');
 				$section_items = isset($section['section_items']) ? $section['section_items'] : array();
 				?>
 				<div class="appetit_section">
@@ -72,6 +73,7 @@ class CoreUI {
 					    	<input class="generic_input one-third section_name" placeholder="Section name" type="text" value="<?php echo wptexturize($section['section_name']);?>" />
 					    	<div class="section_img_ui"><?php echo $sectionImageHTML;?></div>
 					    	<input class="section_img_id" type="hidden" value="<?php echo (isset($section['section_img_id']) ? $section['section_img_id'] : '') ?>" />
+					    	<input class="menu_section_id" type="hidden" value="<?php echo $menuSectionID;?>" />
 					    	<a class="base-button sectionImageBTN" href="#"><span class="appetit-upload"></span>Upload section image</a>
 					    	<a class="base-button addMenuItemBTN a-pull-right" href="#"><span class="appetit-plus"></span>Add menu item</a>
 					    	<div class="clearfix"></div>
@@ -92,6 +94,7 @@ class CoreUI {
 				$menuImageHTML = isset($menuItem['menu_img_id']) ? '<img src="' . wp_get_attachment_image_src($menuItem['menu_img_id'], 'thumbnail')[0] . '" alt="" />' : '';
 				$menuItemName = isset($menuItem['menu_item_name']) ? $menuItem['menu_item_name'] : '';
 				$itemSmallDescription = isset($menuItem['item_small_description']) ? $menuItem['item_small_description'] : '';
+				$menuItemID = isset($menuItem['menu_item_id']) ? $menuItem['menu_item_id'] : uniqid('_item');
 			?>
 				<div class="menu_item_ui">
 				    <h3 class="section-header"><span>| </span><span class="menu_title"><?php echo wptexturize($menuItemName); ?></span> <span class="appetit-move a-pull-right" title="Move / Drag to change order"></span><span style="margin-right: 10px;" title="Remove" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span><span style="margin-right: 10px;" class="menuCloneBTN appetit-copy a-pull-right" title="Duplicate"></h3>
@@ -102,7 +105,8 @@ class CoreUI {
 					    	<div class="menu_img_ui"><?php echo $menuImageHTML;?></div>
 					    	<input class="menu_img_id" type="hidden" value="<?php echo $menuItem['menu_img_id'];?>" />
 					    	<a class="base-button menuImageBTN" href="#"><span class="appetit-upload"></span>Upload image</a>	
-					    	<div class="clearfix"></div>
+					    	<div class="clearfix"></div>					    	
+					    	<input class="menu_item_id" type="hidden" value="<?php echo $menuItemID;?>" />
 					    	<textarea id="<?php echo uniqid('_desc_'); ?>" class="item_small_description" placeholder="small description"><?php echo wptexturize($itemSmallDescription); ?></textarea>
 					    </div>
 				    </div>

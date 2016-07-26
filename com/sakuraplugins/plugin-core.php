@@ -145,7 +145,7 @@ class AppetitCore {
 	 * SAVE POST EXTRA DATA
 	 */
 	 public function savePostHandler() {
-		global $post;						
+		global $post;
 		if ( defined('DOING_AUTOSAVE') && DOING_AUTOSAVE ){
 			return $post_id;
 		}

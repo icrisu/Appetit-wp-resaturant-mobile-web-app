@@ -17,11 +17,12 @@ class AppetitMobilePage extends AppetitGenericPage implements iAppetitGenericPag
 	}
 
 	//render frontend mobile web app
-	public function execRenderFrontend() {		
+	public function execRenderFrontend() {
+		$this->buildMenuData();
+		//print_r($this->allMenuItems);
+		//return;
 		require_once(dirname(__FILE__) . '/appetit-mobile-header.php');
-		?>
-		<p>body</p>
-		<?php
+		require_once(dirname(__FILE__) . '/appetit-mobile-content.php');
 		require_once(dirname(__FILE__) . '/appetit-mobile-footer.php');
 	}
 }

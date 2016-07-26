@@ -19,6 +19,7 @@ var AViews = function() {
 					    	'<input class="generic_input one-third section_name" placeholder="Section name" type="text" value="'+ data.sectionName +'" />',
 					    	'<div class="section_img_ui"></div>',
 					    	'<input class="section_img_id" type="hidden" />',
+					    	'<input class="menu_section_id" type="hidden" value="_section' + SakuraPlugins.utils.generateUID() + '" />',
 					    	'<a class="base-button sectionImageBTN" href="#"><span class="appetit-upload"></span>Upload section image</a>',
 					    	'<a class="base-button addMenuItemBTN a-pull-right" href="#"><span class="appetit-plus"></span>Add menu item</a>',
 					    	'<div class="clearfix"></div>',
@@ -208,7 +209,8 @@ var AViews = function() {
 				return {
 					section_name : this.el.find('.section_name').val(),
 					section_img_id : this.el.find('.section_img_id').val(),
-					section_items : menuItemsData
+					section_items : menuItemsData,
+					menu_section_id: this.el.find('.menu_section_id').val()
 				};
 			}
 		},
@@ -232,6 +234,7 @@ var AViews = function() {
 					    	'<input class="menu_img_id" type="hidden" value="' + ((data.menu_img_id) ? data.menu_img_id : "") + '" />',
 					    	'<a class="base-button menuImageBTN" href="#"><span class="appetit-upload"></span>Upload image</a>',					    	
 					    	'<div class="clearfix"></div>',
+					    	'<input class="menu_item_id" type="hidden" value="_item' + SakuraPlugins.utils.generateUID() + '" />',
 					    	'<textarea id="_desc_' + SakuraPlugins.utils.generateUID() + '" class="item_small_description" placeholder="small description">' + ((data.item_small_description) ? data.item_small_description : "") + '</textarea>',
 					    '</div>',
 				    '</div>',
@@ -304,15 +307,16 @@ var AViews = function() {
 				this.el.find('.item_small_description').focusout(_.bind(function() {
 					this.SectionView.AppetitAdmin.save();
 				}, this));																																
-			}			
+			}
 
 			this.serialize = function(getIconUrl) {
 				var descrtiptionId = this.el.find('.item_small_description').attr('id');
 				var out = {
 					menu_item_name: this.el.find('.menu_item_name').val(),
 					price_input: this.el.find('.price_input').val(),
-					menu_img_id: this.el.find('.menu_img_id').val(),	
-					item_small_description: document.getElementById(descrtiptionId).value
+					menu_img_id: this.el.find('.menu_img_id').val(),
+					item_small_description: document.getElementById(descrtiptionId).value,
+					menu_item_id: this.el.find('.menu_item_id').val()
 				};
 				if (getIconUrl) {
 					out.iconUrl = this.el.find('.menu_img_ui img').attr('src');
