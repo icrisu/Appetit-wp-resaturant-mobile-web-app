@@ -112,24 +112,6 @@ AppetitMobileApp.prototype.views = {
 		this.context = context;
 		this.el = $('#cart .cart-content');
 
-		this.removeFromCart = function(cid) {
-			this.el.find('.appetit-list-item-order-active').each(function(indx) {
-				if ($(this).attr('data-cid') == cid) {
-					var toBeRemoved = $(this).parent();
-					toBeRemoved.animate({
-						height: 0
-					}, 150, function() {
-						toBeRemoved.remove();
-					});
-				}
-			});
-			this.Cart.getInstance().removeFromCart(cid);
-			this.updateCartInfo();
-			if (this.Cart.getInstance().getAllItems() == 0) {
-				this.render();
-			}
-		}
-
 		this.buidPrice = function(price) {
 			return this.context.buildPrice(price, true, 'displaytotal');
 		}
@@ -152,7 +134,7 @@ AppetitMobileApp.prototype.views = {
 								'<p class="appetit-list-item-price">' + this.buidPrice(data[i].price_input) + '</p>',
 							'</div>',
 							'<div class="pull-right remove-order-item-ui">',
-								'<a onclick="AppetitMobile.removeFromCart(\'' + data[i].cid + '\');" class="remove-order-item-btn" href="#"><span class="appetit-icon-cross"></span></a>',
+								'<a onclick="AppetitMobile.removeFromCart(\'' + data[i].cid + '\');" class="remove-order-btn remove-order-item-btn" href="#"><span class="appetit-icon-cross"></span></a>',
 							'</div>',
 							'<div class="clear-fx"></div>',
 						'</div>',
@@ -161,8 +143,10 @@ AppetitMobileApp.prototype.views = {
 				total += parseFloat(data[i].price_input);
 			}
 			return [
-				'<div class="order-block">',
-					'<p class="appetit-mobile-order-title">Opened order: ' + this.buidPrice(total.toFixed(2)) + '</p>',
+				'<div class="order-block order-block-active">',
+					'<p class="appetit-mobile-order-title pull-left">Opened order: ' + this.buidPrice(total.toFixed(2)) + '</p>',
+					'<a href="#" onclick="AppetitMobile.closeOrder();" class="pull-right appetit-close-order-btn"><span class="appetit-icon-cross"></span>Close order</a>',
+					'<div class="clear-fx"></div>',
 					'<ul class="list inset">',
 						itemsHTML,
 					'</ul>',
@@ -170,28 +154,145 @@ AppetitMobileApp.prototype.views = {
 			].join('');
 		}
 
+		//build orders UI
+		this.buildOrdersUI = function(ordersData) {
+			var pastOrdersHTML = '';
+
+			for (var i = 0; i < ordersData.length; i++) {
+				var orderItemsHTML = '';
+
+				var orderItems = ordersData[i].items;
+				for (var k = 0; k < orderItems.length; k++) {
+
+					orderItemsHTML += [
+						'<div class="order-item-info">',
+							'<p>' + orderItems[k].menu_item_name + ' | ' + this.context.buildPrice(orderItems[k].price_input, 'no_label') +'</p>',
+						'</div>',					
+					].join('');
+				}
+
+				pastOrdersHTML += [
+					'<li data-orderid="'+ ordersData[i].id +'" data-isclosed="true">',
+						'<div class="pull-left">',
+							'<p>' + ordersData[i].orderName + '</p>',
+							'<p>' + this.buidPrice(ordersData[i].total) + '</p>',
+						'</div>',
+						'<div class="pull-right remove-order-item-ui">',
+							'<a onclick="AppetitMobile.expandOrderItem(\'' + ordersData[i].id + '\');" class="remove-order-btn expand-order-btn pull-left" href="#"><span class="appetit-icon-plus"></span></a>',
+							'<a onclick="AppetitMobile.colapseOrderColapse(\'' + ordersData[i].id + '\');" class="remove-order-btn colapse-order-btn pull-left" href="#"><span class="appetit-icon-minus"></span></a>',
+							'<a onclick="AppetitMobile.deleteOrder(\'' + ordersData[i].id + '\');" class="remove-order-btn remove-order-btn-remove pull-left" href="#"><span class="appetit-icon-trashcan"></span></a>',							
+							'<div class="clear-fx"></div>',
+						'</div>',
+						'<div class="clear-fx"></div>',
+						'<div class="appetit-order-info-ui">',
+							orderItemsHTML,
+						'</div>',
+					'</li>'
+				].join('');
+			}
+
+			return [
+				'<div class="appetit-past-orders-ui">',
+					'<p class="appetit-mobile-order-title"><strong>Past orders</strong></p>',
+					'<ul class="list inset">',
+						pastOrdersHTML,
+					'</ul>',
+				'</div>'
+			].join('');
+		}
+
+		this.animateOrderItemInfo = function(itemUI, height, opacity, callback) {
+			itemUI.animate({
+				height: height,
+				opacity: opacity
+			}, 200, function() {
+				callback();
+			});
+		}
+
+		this.colapseOrExpand = function(id) {
+			var orderItem = this.el.find('[data-orderid="'+ id +'"]');
+			var orderInfo = orderItem.find('.appetit-order-info-ui');
+			if (!orderInfo.attr('data-initialheight')) {
+				orderInfo.attr('data-initialheight', orderInfo.height());
+			}
+
+			var expandBtn = orderItem.find('.expand-order-btn');
+			var colapseBtn = orderItem.find('.colapse-order-btn');
+
+			if (orderItem.attr('data-isclosed') == 'true') {
+				//open
+				orderItem.attr('data-isclosed', 'false');
+				orderInfo.show();
+				expandBtn.hide();
+				colapseBtn.show();				
+				this.animateOrderItemInfo(orderInfo, parseFloat(orderInfo.attr('data-initialheight')) + 10 + 20, 1, function() {
+				});
+			} else {
+				//close
+				orderItem.attr('data-isclosed', 'true');
+				expandBtn.show();
+				colapseBtn.hide();				
+				this.animateOrderItemInfo(orderInfo, 0, 0, function() {
+					orderInfo.hide();
+				});
+			}			
+		}
+
+		//expand order item
+		this.expandOrderItem = function(id) {
+			this.colapseOrExpand(id);
+		}
+
+		//colapse order item
+		this.colapseOrderColapse = function(id) {
+			this.colapseOrExpand(id);
+		}
+
+		//delete order
+		this.deleteOrder = function(id) {
+			var _self = this;
+			var orderItem = this.el.find('[data-orderid="'+ id +'"]');		
+			if (confirm('Are you sure you want to delete this order?')) {
+				this.animateOrderItemInfo(orderItem, 0, 0, function() {
+					orderItem.remove();
+					_self.Cart.getInstance().deleteOrder(id);
+					if (_self.Cart.getInstance().getCurrentOrders().length == 0) {
+						_self.render();
+					}
+				});				
+			}
+		}				
+
 		this.render = function() {
 			this.el.empty();
-			var existingCartData = this.Cart.getInstance().loadExistingData();
-			console.log(existingCartData);
+			var existingCartData = this.Cart.getInstance().getCurrentItems();
 
 			if (!existingCartData || (existingCartData instanceof Array && existingCartData.length == 0)) {
 				this.el.append($('<p class="appetit-mobile-cart-info">' + this.context.labels.noSavedOrders + '</p>'));
 			} else {
-				this.el.append($(this.buildCurrentOrder(this.Cart.getInstance().getCurrentItems())));
+				this.el.append($(this.buildCurrentOrder(existingCartData)));
 			}
+
+			//get past orders
+			var ordersObj = this.Cart.getInstance().getCurrentOrders();			
+			if (ordersObj && (ordersObj instanceof Array && ordersObj.length != 0)) {
+				//build orders UI
+				this.el.append($(this.buildOrdersUI(ordersObj)));
+			}
+
 			return this;
 		}
 
 		//update cart info
 		this.updateCartInfo = function() {
-			var currentCartOpenItems = this.Cart.getInstance().getAllItems().length;
-			if (currentCartOpenItems == 0) {
+			var currentCartOpenItems = this.Cart.getInstance().getCurrentItems();
+			if (!currentCartOpenItems || (currentCartOpenItems instanceof Array && currentCartOpenItems.length == 0)) { 
 				$('#cartButton .cart-info').hide();
 			} else {
 				$('#cartButton .cart-info').show();
 			}
-			$('#cartButton .cart-info').html(currentCartOpenItems);
+			$('#cartButton .cart-info').html(currentCartOpenItems.length);
 
 			this.animatecart = function(value, stop) {
 				$('#cartButton .cart-info').animate({
@@ -207,13 +308,45 @@ AppetitMobileApp.prototype.views = {
 			this.animatecart(23);
 		}
 
-		this.updateCartInfo();
+		this.removeFromCart = function(cid) {
+			this.el.find('.appetit-list-item-order-active').each(function(indx) {
+				if ($(this).attr('data-cid') == cid) {
+					var toBeRemoved = $(this).parent();
+					toBeRemoved.animate({
+						height: 0
+					}, 150, function() {
+						toBeRemoved.remove();
+					});
+				}
+			});
+			var removedItem = this.Cart.getInstance().removeFromCart(cid);			
+			this.updateCartInfo();
+			var currentItems = this.Cart.getInstance().getCurrentItems();
+			if (!currentItems || (currentItems instanceof Array && currentItems.length == 0)) {
+				this.render();
+			} else {
+				this.el.find('.appetit-mobile-order-title .appetit-price-value').html(this.Cart.getInstance().getTotal());
+			}
+		}		
 
 		this.addToCart = function(objectItem, times, context) {
 			this.Cart.getInstance().addToCart(objectItem, times, context);
 			this.updateCartInfo();
-			this.render();			
+			this.render();
 		}
+
+		this.closeOrder = function() {
+			this.el.find('.order-block-active').animate({
+				height: 0
+			}, 300, function() {
+				this.Cart.getInstance().closeOrder();
+				this.render();
+				this.updateCartInfo();
+			}.bind(this));
+		}
+
+		this.Cart.getInstance().init(this.context);
+		this.updateCartInfo();
 	}	
 }
 
@@ -242,29 +375,40 @@ AppetitMobileApp.prototype.openItem = function(itemID, tempAnchorId) {
 };
 
 //open cart ui
-AppetitMobileApp.prototype.beforeCartOpen = function(first_argument) {
+AppetitMobileApp.prototype.beforeCartOpen = function() {
 	this.cartView.render();
+};
+
+AppetitMobileApp.prototype.closeOrder = function() {
+	this.cartView.closeOrder();
 };
 
 //build price helper
 AppetitMobileApp.prototype.buildPrice = function(price, isStrong, label) {
 	var priceLabel = this.labels.priceLabel;
+	var labelSeparator = ': ';
 	if (label) {
 		if (label === 'displaytotal') {
 			priceLabel = this.labels.priceLabelTotal;
 		}
 	}
+
+	if (isStrong == 'no_label') {
+		priceLabel = '';
+		labelSeparator = '';
+	}
+
 	if (this.currencyPositionAfter) {
-		if (isStrong) {
-			return '<span class="strong_price">' + priceLabel + '</span>: ' + price + '' + this.currencySymbol;
+		if (isStrong && isStrong != 'no_label') {
+			return '<span class="strong_price">' + priceLabel + '</span>: ' + '<span class="appetit-price-value">' + price + '</span>' + '' + this.currencySymbol;
 		} else {
-			return priceLabel + ': ' + price + '' + this.currencySymbol;
+			return priceLabel + labelSeparator + '<span class="appetit-price-value">' + price + '</span>' + '' + this.currencySymbol;
 		}		
 	} else {
-		if (isStrong) {
-			return '<span class="strong_price">' + priceLabel + '</span>: ' + this.currencySymbol + '' + price;
+		if (isStrong && isStrong != 'no_label') {
+			return '<span class="strong_price">' + priceLabel + '</span>: ' + this.currencySymbol + '' + '<span class="appetit-price-value">' + price + '</span>';
 		} else {
-			return priceLabel + ': ' + this.currencySymbol + '' + price;
+			return priceLabel + labelSeparator + this.currencySymbol + '' + '<span class="appetit-price-value">' + price + '</span>';
 		}		
 	}
 };
@@ -275,7 +419,7 @@ AppetitMobileApp.prototype.handleData = function() {
 	this.labels.priceLabel = 'Price';
 	this.labels.priceLabelTotal = 'Total';
 	this.labels.saveLabel = 'Save';
-	this.labels.noSavedOrders = 'There are no saved orders';
+	this.labels.noSavedOrders = 'There are no opened orders';
 
 	this.currencySymbol = $('.appetit-content-view').data().currencySymbol || '$';
 	this.currencyPositionAfter = parseInt($('.appetit-content-view').data().currencyPosition, 10) || 0;	
@@ -341,13 +485,24 @@ AppetitMobileApp.prototype.router = function() {
 };
 
 
-AppetitMobileApp.prototype.generateUID = function() {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-};
-
 AppetitMobileApp.prototype.removeFromCart = function(cid) {
 	this.cartView.removeFromCart(cid);
 };
+
+//expand order item
+AppetitMobileApp.prototype.expandOrderItem = function(id) {
+	this.cartView.expandOrderItem(id);
+}
+
+//colapse order item
+AppetitMobileApp.prototype.colapseOrderColapse = function(id) {
+	this.cartView.colapseOrderColapse(id);
+}
+
+//delet order
+AppetitMobileApp.prototype.deleteOrder = function(id) {
+	this.cartView.deleteOrder(id);
+}
 
 //cart helper - orders
 AppetitMobileApp.prototype.Cart = {
@@ -356,12 +511,44 @@ AppetitMobileApp.prototype.Cart = {
 
 	Cart: function() {
 		this.items = [];
-		this.firstDataLoad = false;
-		this.uidStorage = '32632987892eydhuahjs298';
+		this.orders = [];
+		this.context;
 
-		this.getAllItems = function() {
-			if (!this.firstDataLoad) {
-				this.loadExistingData();
+		this.uidStorage = '32632987892eydhsaduahjs298';
+		this.uidStorageOrders = '326329878324sadad7y7127391';
+
+		//get total price
+		this.getTotal = function() {
+			var total = 0;
+			var items = this.getCurrentItems();
+			for (var i = 0; i < items.length; i++) {
+				total += parseFloat(items[i].price_input);
+			}
+			return total.toFixed(2);
+		}
+
+		//get current items
+		this.getCurrentItems = function() {
+			if (this.items.length != 0) {
+				return this.items;
+			} else {
+				return this.loadExistingData();
+			}			
+		}
+
+		this.loadExistingData = function() {
+			if (typeof(Storage) === "undefined") {
+				return;
+			}
+
+			var raw = localStorage.getItem(this.uidStorage);
+			if (raw) {
+				try {
+					this.items = JSON.parse(raw);
+				} catch (e) {
+					alert('error, can not parse JSON');
+					alert(e);
+				}				
 			}
 			return this.items;
 		}
@@ -370,68 +557,99 @@ AppetitMobileApp.prototype.Cart = {
 		this.addToCart = function(objectItem, times, context) {
 			for (var i = 0; i < parseInt(times, 10); i++) {
 				var newObjectItem = jQuery.extend({}, objectItem);
-				newObjectItem.isUnclosed = true;
 				newObjectItem.cid = '_cid_' + context.generateUID() + i;
-				this.items.push(newObjectItem);
+				this.items.unshift(newObjectItem);
 			}
 			this.saveData();
-		}
-
-		//get current items
-		this.getCurrentItems = function() {
-			var unclosedItems = [];
-			for (var i = this.items.length - 1; i >= 0; i--) {
-				if (this.items[i].isUnclosed) {
-					unclosedItems.push(this.items[i]);
-				} else {
-					break;
-				}
-			}
-			if (unclosedItems.length ==0) {
-				return null;
-			} else {
-				return unclosedItems;
-			}
-		}
-
-		this.loadExistingData = function() {
-			if (typeof(Storage) === "undefined") {
-				return;
-			}
-			this.firstDataLoad = true;
-			var raw = localStorage.getItem(this.uidStorage);
-			if (raw) {
-				try {
-					this.items = JSON.parse(raw);
-				} catch (e) {
-					alert('error, can not parse JSON');
-					alert(e);
-				}
-				return this.items;
-			} else {
-				return null;
-			}
-		}
+		}		
 
 		this.removeFromCart = function(cid) {
+			var removedItem;
 			for (var i = this.items.length - 1; i >= 0; i--) {
-				if (this.items[i].isUnclosed && this.items[i].cid == cid) {					
+				if (this.items[i].cid == cid) {
+					removedItem = this.items[i];
 					this.items.splice(i, 1);
 					break;
 				}
 			}
-			this.saveData();		
+			this.saveData();
+			return removedItem;
 		}
 
+		//close current order
 		this.closeOrder = function() {
-
+			var total = this.getTotal();
+			var orderObj = {
+				orderName: this.context.getCurrentTime(), 
+				total: total, 
+				items: this.items,
+				id: 'order_' + this.context.generateUID()
+			};
+			this.orders.unshift(orderObj);
+			this.items = [];
+			this.saveData();
+			this.saveOrders();
 		}
 
 		this.saveData = function() {
-			if (typeof(Storage) === "undefined" && this.items.length != 0) {
+			if (typeof(Storage) === "undefined") {
 				return;
 			}
 			localStorage.setItem(this.uidStorage, JSON.stringify(this.items));
+		}
+
+		//get current items
+		this.getCurrentOrders = function() {
+			if (this.orders.length != 0) {
+				return this.orders;
+			} else {
+				return this.loadOrders();
+			}			
+		}
+
+		//delete an order
+		this.deleteOrder = function(id) {
+			var removedOrder;
+			for (var i = this.orders.length - 1; i >= 0; i--) {
+				if (this.orders[i].id == id) {
+					removedOrder = this.orders[i];
+					this.orders.splice(i, 1);
+					break;
+				}
+			}
+			this.saveOrders();
+			return removedOrder;
+		}
+
+		this.saveOrders = function() {
+			if (typeof(Storage) === "undefined") {
+				return;
+			}			
+			localStorage.setItem(this.uidStorageOrders, JSON.stringify(this.orders));
+		}
+
+		//load past orders
+		this.loadOrders = function() {
+			if (typeof(Storage) === "undefined") {
+				return;
+			}
+
+			var raw = localStorage.getItem(this.uidStorageOrders);
+			if (raw) {
+				try {
+					this.orders = JSON.parse(raw);
+				} catch (e) {
+					alert('error, can not parse orders JSON');
+					alert(e);
+				}				
+			}
+			return this.orders;
+		}
+
+		this.init = function(context) {
+			this.context = context;
+			this.loadExistingData();
+			this.loadOrders();
 		}
 	},
 	
@@ -478,6 +696,10 @@ AppetitMobileApp.prototype.AddToCartController = function(controllerID, context,
 	}
 
 	this.save = function() {
+		if (this.itemData.price_input === '') {
+			alert('Can not add item, there is no price!');
+			return;
+		}
 		this.context.cartView.addToCart(this.itemData, this.currentValue, this.context);
 		this.currentValue = 1;
 		this.updateValue();
@@ -499,17 +721,40 @@ AppetitMobileApp.prototype.AddToCartController = function(controllerID, context,
 
 };
 
+//utils generate uid
+AppetitMobileApp.prototype.generateUID = function() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+};
+
+AppetitMobileApp.prototype.getHours = function(date) {
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	var ampm = hours >= 12 ? 'pm' : 'am';
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
+	minutes = minutes < 10 ? '0'+minutes : minutes;
+	var strTime = hours + ':' + minutes + ' ' + ampm;
+	return strTime;
+};
+//utils, get time
+AppetitMobileApp.prototype.getCurrentTime = function() {
+	var d = new Date();
+	var weekday = new Array(7);
+	weekday[0]=  "Sunday";
+	weekday[1] = "Monday";
+	weekday[2] = "Tuesday";
+	weekday[3] = "Wednesday";
+	weekday[4] = "Thursday";
+	weekday[5] = "Friday";
+	weekday[6] = "Saturday";
+	var n = weekday[d.getDay()];
+
+	return n + ' | ' + this.getHours(d);
+};
+
 //init
 AppetitMobileApp.prototype.init = function() {
 	this.handleData();
 	this.router();
 	this.cartView = new this.views.CartView(this.Cart, this).render();
-
-	var obj = [];
-	for (var i = 0; i < 2000; i++) {
-		obj.push({
-			itemName: '___name___' + this.generateUID()
-		});
-	}
-	console.log(JSON.stringify(obj));
 };

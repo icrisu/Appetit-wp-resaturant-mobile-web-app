@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'appetit-front';
-  src:  url('fonts/appetit-front.eot?ola3q5');
-  src:  url('fonts/appetit-front.eot?ola3q5#iefix') format('embedded-opentype'),
-    url('fonts/appetit-front.ttf?ola3q5') format('truetype'),
-    url('fonts/appetit-front.woff?ola3q5') format('woff'),
-    url('fonts/appetit-front.svg?ola3q5#appetit-front') format('svg');
+  src:  url('fonts/appetit-front.eot?crxi9u');
+  src:  url('fonts/appetit-front.eot?crxi9u#iefix') format('embedded-opentype'),
+    url('fonts/appetit-front.ttf?crxi9u') format('truetype'),
+    url('fonts/appetit-front.woff?crxi9u') format('woff'),
+    url('fonts/appetit-front.svg?crxi9u#appetit-front') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,39 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.appetit-icon-trashcan:before {
+  content: "\e913";
+}
+.appetit-icon-trashcan2:before {
+  content: "\e914";
+}
+.appetit-icon-garbage:before {
+  content: "\e914";
+}
+.appetit-icon-delete:before {
+  content: "\e914";
+}
+.appetit-icon-remove:before {
+  content: "\e914";
+}
+.appetit-icon-bin:before {
+  content: "\e914";
+}
+.appetit-icon-uninstall:before {
+  content: "\e914";
+}
+.appetit-icon-cart:before {
+  content: "\e911";
+}
+.appetit-icon-trash:before {
+  content: "\e915";
+}
+.appetit-icon-remove2:before {
+  content: "\e915";
+}
+.appetit-icon-delete2:before {
+  content: "\e915";
+}
 .appetit-icon-basket:before {
   content: "\e912";
 }
@@ -42,14 +75,14 @@
 .appetit-icon-archive:before {
   content: "\e90f";
 }
-.appetit-icon-cart:before {
-  content: "\e911";
-}
 .appetit-icon-close:before {
   content: "\e90e";
 }
 .appetit-icon-add:before {
   content: "\e908";
+}
+.appetit-icon-eye:before {
+  content: "\e916";
 }
 .appetit-icon-circle-cross:before {
   content: "\e90c";

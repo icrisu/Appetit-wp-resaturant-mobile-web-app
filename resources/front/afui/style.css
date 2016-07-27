@@ -220,28 +220,75 @@ body, a, p, div, h1 {
 	text-align: center;
 }
 
-.appetit-mobile-order-title {
+.appetit-mobile-order-title, .appetit-close-order-btn{
 	margin: 10px;
+}
+
+.appetit-close-order-btn:link {
+	text-decoration: none;
+	color: #404040;
+}
+.appetit-close-order-btn:visited {
+	color: #404040;
+}
+.appetit-close-order-btn:hover {
+	color: #828080;
+}
+.appetit-close-order-btn:active {
+	color: #828080;
+}
+.appetit-close-order-btn span {
+	margin-right: 5px;
 }
 
 .remove-order-item-ui {
 	margin-top: 17px;
 }
 
-.remove-order-item-btn:link {
+.remove-order-btn:link {
 	text-decoration: none;
-	color: #cccccc;
+	color: #9c9b9b;
 	font-size: 22px;
 }
-.remove-order-item-btn:visited {
+.remove-order-btn:visited {
 	text-decoration: none;
-	color: #cccccc;
+	color: #9c9b9b;
 }
-.remove-order-item-btn:hover {
+.remove-order-btn:hover {
 	text-decoration: none;
 }
-.remove-order-item-btn:active {
+.remove-order-btn:active {
 	text-decoration: none;
+}
+
+.order-block-active {
+	overflow: hidden;
+}
+
+.appetit-past-orders-ui {
+	margin: 30px 0px;
+}
+
+.appetit-past-orders-ui p {
+	color: #777676;
+}
+
+.expand-order-btn, .colapse-order-btn {
+	margin-right: 20px;
+}
+
+.colapse-order-btn {
+	display: none;
+}
+
+.appetit-order-info-ui {
+	display: none;
+	background-color: #F2F2F2;
+	padding: 10px;
+	border-radius: 4px;
+	margin-top: 10px;
+	overflow: hidden;
+	opacity: 0;
 }
 /* end cart page */
 
