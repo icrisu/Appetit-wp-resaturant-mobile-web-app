@@ -469,11 +469,13 @@ AppetitMobileApp.prototype.router = function() {
 			$('#app-header').show();
 		}
 		if (window.location.hash == '#cart') {
-			$('#app-header .back-icon').removeClass('appetit-icon-arrow-left2');
-			$('#app-header .back-icon').addClass('appetit-icon-cross');			
+			$('#app-header #cartButton').hide();
+			$('#app-header #backButton').hide();
+			$('#app-header #closeCartButton').show();
 		} else {
-			$('#app-header .back-icon').removeClass('appetit-icon-cross');
-			$('#app-header .back-icon').addClass('appetit-icon-arrow-left2');
+			$('#app-header #cartButton').show();
+			$('#app-header #backButton').show();
+			$('#app-header #closeCartButton').hide();
 		}		
 	}
 

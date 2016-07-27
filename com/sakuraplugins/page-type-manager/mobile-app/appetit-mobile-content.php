@@ -3,15 +3,16 @@
         <header id="app-header">
             <a id="backButton" href="#" onclick="$.afui.goBack();" class="app-mobile-button app-mobile-button-back" ><span class="back-icon appetit-icon-arrow-left2"></span></a>
             <h1>Menu categories</h1>
-            <a id="cartButton" href="#cart" data-transition="up-reveal" onclick="AppetitMobile.beforeCartOpen();" class="app-mobile-button app-mobile-button-cart" ><span class="appetit-icon-cart"></span><span class="cart-info">1</span></a>            
+            <a id="cartButton" href="#cart" data-transition="up-reveal" onclick="AppetitMobile.beforeCartOpen();" class="app-mobile-button app-mobile-button-cart"><span class="appetit-icon-cart"></span><span class="cart-info">1</span></a>
+            <a id="closeCartButton" href="#" onclick="$.afui.goBack();" class="app-mobile-button app-mobile-button-back pull-right" ><span class="back-icon appetit-icon-cross"></span></a>            
         </header>
 
         <!--pages-->
         <div class="pages">
  
              <!--home page-->
-            <div class="panel" id="main" data-selected="true" data-title="home">
-                <div class="panel-content">                    
+            <div class="panel" id="main" data-selected="true" data-title="">
+                <div class="panel-content">
                     <div class="app-mobile-logo_ui">
                         <?php if (!is_null($this->welcomeLogoId)): ?>
                         <img src="<?php echo wp_get_attachment_image_url($this->welcomeLogoId); ?>" srcset="<?php echo wp_get_attachment_image_srcset($this->welcomeLogoId); ?>" alt="logo" />

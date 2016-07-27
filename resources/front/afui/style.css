@@ -111,18 +111,40 @@ body, a, p, div, h1 {
 #app-header .backButton {
 	display: none;
 }
+
+#closeCartButton {
+	display: none;
+}
 /* end general settings */
 
 
 /* welcome page */
 .app-mobile-logo_ui {
 	text-align: center;
-	margin-top: 12%;
+	margin-top: 20%;
 	margin-bottom: 30px;
 }
 .app-mobile-logo_ui img {
 	display: inline-block;
 	max-width: 50%;
+}
+
+@media (max-width: 767px) {		
+	.app-mobile-logo_ui img {
+		max-width: 60%;
+	}
+}
+
+@media (max-width: 500px) {		
+	.app-mobile-logo_ui img {
+		max-width: 70%;
+	}
+}
+
+@media (min-width: 900px) {		
+	.app-mobile-logo_ui img {
+		max-width: 500px;
+	}
 }
 
 .app-mobile-welcome-text {
