@@ -1,0 +1,101 @@
+/* main container */
+.luna-cafe-main {	
+	max-width: 1100px;
+	position: relative;
+	margin: auto;
+	background: #FFFFFF;
+	margin-top: 30px; margin-bottom: 30px;
+	padding: 60px;
+	background-image: url('../img/patterns/handmadepaper.png');
+    background-repeat: repeat;
+}
+
+@media (max-width: 1099px) {		
+	.luna-cafe-main {
+		margin: 40px;
+		padding: 20px;
+	}
+}
+
+@media (max-width: 767px) {		
+	.luna-cafe-main {
+		margin: 10px;
+		padding: 10px;
+	}
+}
+/* end main container */
+
+/* logo */
+.luna-cafe-main-logo-ui {
+	text-align: center;
+	margin-bottom: 30px;
+	margin-top: 60px;
+}
+.luna-cafe-main-logo-ui img {
+	display: inline-block;
+	max-width: 300px;
+}
+
+@media (max-width: 400px) {		
+	.luna-cafe-main-logo-ui img {
+		max-width: 250px;
+	}
+}
+/* /logo */
+
+.luna-cafe-starts {
+	list-style-type: none;
+	padding: 0px; margin: 40px 0px;
+	margin-bottom: 50px;
+	text-align: center;
+}
+
+.luna-cafe-starts li {
+	display: inline-block;
+	color: #000000;
+}
+
+/* section */
+.luna-cafe-section {
+	margin-bottom: 60px;
+}
+
+.luna-cafe-section-title {
+	margin: 0;
+	font-family: 'Open Sans', sans-serif !important;
+	font-size: 22px;
+	text-align: center;
+	font-weight: 600;
+	letter-spacing: 2px;
+	color: #2ea58c;
+	margin-bottom: 10px;
+	padding: 10px;
+	text-transform: uppercase;
+}
+
+.luna-cafe-section-items {
+	padding: 10px;
+}
+
+.luna-cafe-section-item {
+	border-bottom-style: solid; border-width: 1px; border-color: #51c4ac;
+}
+
+.luna-cafe-section-item-name, .luna-cafe-section-item-price {
+	color: #2ea58c;
+	margin: 12px 0px; padding: 0px;
+	font-family: 'Open Sans', sans-serif !important;
+	font-style: italic;
+	font-size: 18px;
+	float: left;
+}
+
+.luna-cafe-section-item-price {
+	float: right;
+}
+
+.luna-cafe-clear {
+	clear: both;
+}
+/* end section */
+

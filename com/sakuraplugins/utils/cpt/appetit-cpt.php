@@ -15,7 +15,7 @@ class AppetitCPT extends AppetitGenericPostType
 		$customPostOptions = get_post_meta($post->ID, $this->getPostCustomMeta(), false);
 		$pageType = (isset($customPostOptions[0]['pageType'])) ? $customPostOptions[0]['pageType'] : false;	
 		$customPostMeta = $this->getPostCustomMeta();
-		$pageManager = new PageTypeManager($customPostMeta, $customPostOptions);		
+		$pageManager = new PageTypeManager($customPostMeta, $customPostOptions);
 		?>
 
 		<!--choose page type-->

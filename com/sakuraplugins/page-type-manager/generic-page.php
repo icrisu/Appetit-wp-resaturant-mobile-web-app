@@ -8,24 +8,24 @@ require_once(dirname(__FILE__) . '/../options/AppetitOptions.php');
 
 class AppetitGenericPage
 {
-	protected $customPostMeta;
-	protected $customPostOptions;
-	protected $data;
-	protected $menuData;
-	protected $sectionsData = array();
-	protected $currencySymbol = '$';
-	protected $currencyPosition = 0;
-	protected $disable_save_to_order = 0;
-	protected $allMenuItems = array();
+	public $customPostMeta;
+	public $customPostOptions;
+	public $data;
+	public $menuData;
+	public $sectionsData = array();
+	public $currencySymbol = '$';
+	public $currencyPosition = 0;
+	public $disable_save_to_order = 0;
+	public $allMenuItems = array();
 
-	protected $appetitCustomCSS = '';
+	public $appetitCustomCSS = '';
 
-	protected $welcomeAbout = 'No welcome text found';
-	protected $welcomeLogoId = NULL;
-	protected $defaultLogo = APPETIT_FRONT_URI . '/img/logo-default.png';
-	protected $welcomeLabel = 'No welcome labe';
+	public $welcomeAbout = 'No welcome text found';
+	public $welcomeLogoId = NULL;
+	public $defaultLogo = APPETIT_FRONT_URI . '/img/logo-default.png';
+	public $welcomeLabel = 'No welcome labe';
 
-	protected $appetitLabels = array();
+	public $appetitLabels = array();
 
 	function __construct($customPostMeta, $customPostOptions, $data = null) {
 		$this->customPostMeta = $customPostMeta;
@@ -33,7 +33,7 @@ class AppetitGenericPage
 		$this->data = $data;
 	}
 
-	protected function buildImagesSrc() {
+	public function buildImagesSrc() {
 		for ($i=0; $i < sizeof($this->sectionsData); $i++) {
 			if (isset($this->sectionsData[$i]['section_img_id']) && $this->sectionsData[$i]['section_img_id'] != '') {
 				$this->sectionsData[$i]['section_image_src'] = wp_get_attachment_image_url($this->sectionsData[$i]['section_img_id']);
@@ -71,7 +71,7 @@ class AppetitGenericPage
 	}
 
 	//build labels helper
-	protected function buildLabels($menuData) {
+	public function buildLabels($menuData) {
 		$labelsData = isset($menuData['labelsData']) ? $menuData['labelsData'] : array();		
 		$labels_fields = AppetitOptions::getLabelsFields();
 		
@@ -82,7 +82,7 @@ class AppetitGenericPage
 	}
 
 	//build menu data
-	protected function buildMenuData() {
+	public function buildMenuData() {
 		$this->menuData = get_option(AppetitCore::APPETIT_MENU_DATA, array());
 		$this->sectionsData = isset($this->menuData['sectionsData']) ? $this->menuData['sectionsData'] : $this->sectionsData;
 		$this->currencySymbol = (isset($this->menuData['optionsData']) && isset($this->menuData['optionsData']['currencySymbol'])) ? $this->menuData['optionsData']['currencySymbol'] : $this->currencySymbol;

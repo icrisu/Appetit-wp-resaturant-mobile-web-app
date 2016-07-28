@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Appetit - WP Restaurant Mobile Web App
+Plugin Name: Appetit - WP Restaurant Mobile Web App & much more
 Plugin URI: http://sakuraplugins.com/
 Description: Appetit - WP Restaurant Mobile Web App
 Author: SakuraPlugins

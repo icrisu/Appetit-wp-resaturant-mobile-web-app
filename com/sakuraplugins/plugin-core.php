@@ -5,6 +5,7 @@ require_once(dirname(__FILE__) . '/options/AppetitOptions.php');
 require_once(dirname(__FILE__) . '/utils/AppetitUtils.php');
 require_once(dirname(__FILE__) . '/utils/cpt/cpt-helper.php');
 require_once(dirname(__FILE__) . '/utils/cpt/appetit-cpt.php');
+require_once(dirname(__FILE__) . '/shortcodes/shortcodes-manager.php');
 
 /**
 * Base plugin class
@@ -19,6 +20,8 @@ class AppetitCore {
 
 	public function initializeHandler() {
 		$this->_registerCPT();
+		$scm = new ShortcodesManager();
+		$scm->registerShortcodes();
 	}
 
 	//admin init handler
@@ -34,6 +37,19 @@ class AppetitCore {
 
 		add_submenu_page('edit.php?post_type=' . self::APPETIT_CPT_TYPE, 'Appetit menu', 'Appetit menu', 'manage_options', $this->_optionPageSlug, array($CoreUI, 'renderMaster'));		    
 		
+	}
+
+	//Enqueue scripts frontend
+	public function wpEnqueueScriptsHandler() {
+		wp_enqueue_script('jquery');
+		
+		wp_register_style('appetit-front-icon-fonts', APPETIT_FRONT_URI . '/fonts/front/style.css');
+		wp_enqueue_style('appetit-front-icon-fonts');
+
+		wp_register_style('luna-cafe', APPETIT_FRONT_URI . '/css/luna-cafe.css');
+		wp_enqueue_style('luna-cafe');
+
+		AppetitUtils::enqueAdminFontsFrom(AppetitOptions::getAdminFonts());		
 	}
 
 	//admin scripts
@@ -185,17 +201,10 @@ class AppetitCore {
 		add_action( 'admin_enqueue_scripts', array($this, 'adminEnqueueScriptsHandler' ) );
 		add_action( 'wp_ajax_appetit_admin_api', array( $this, 'appetit_admin_api' ) );
 		add_action( 'wp_before_admin_bar_render', array($this, 'adminBarCustom' ) );
-		add_action('admin_init', array($this, 'adminInitHandler'));
-		add_action('save_post', array($this, 'savePostHandler'));
-		add_filter('single_template', array($this, 'sk_plugin_single'));
-		/*
-		add_action('after_setup_theme', array($this, 'after_theme_setup'));													
-		add_action('admin_menu', array($this, 'adminMenuHandler'));						
-		register_deactivation_hook($opts['PLUGIN_FILE'], array($this, 'plugin_deactivate'));
-		add_action('wp_ajax_nopriv_wedxrsvp', array($this, 'ajaxRSVPHandler'));
-		add_action('wp_ajax_wedxrsvp', array($this, 'ajaxRSVPHandler'));
-		add_action('wp_ajax_wedxrsvpadmin', array($this, 'ajaxRSVPHandlerAdmin'));
-		*/	
+		add_action(	'admin_init', array($this, 'adminInitHandler'));
+		add_action(	'save_post', array($this, 'savePostHandler'));
+		add_filter(	'single_template', array($this, 'sk_plugin_single'));
+		add_action(	'wp_enqueue_scripts', array($this, 'wpEnqueueScriptsHandler'));
 	}
 }
 

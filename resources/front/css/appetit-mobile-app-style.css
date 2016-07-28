@@ -141,15 +141,15 @@ body, a, p, div, h1 {
 	max-width: 50%;
 }
 
-@media (max-width: 767px) {		
-	.app-mobile-logo_ui img {
-		max-width: 60%;
-	}
-}
-
 @media (max-width: 500px) {		
 	.app-mobile-logo_ui img {
 		max-width: 70%;
+	}
+}
+
+@media (max-width: 767px) {		
+	.app-mobile-logo_ui img {
+		max-width: 60%;
 	}
 }
 
