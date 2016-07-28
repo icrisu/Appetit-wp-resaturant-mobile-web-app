@@ -379,7 +379,17 @@ var AViews = function() {
 		        	currencyPositionInput.val(0);
 		        }
 		        _self.AppetitAdmin.save();
-		    });			
+		    });
+
+			var disable_save_to_order = this.el.find('.disable_save_to_order');
+		    this.el.find('.disable_save_to_order_cb').change(function() {
+		        if(jQuery(this).is(":checked")) {
+		        	disable_save_to_order.val(1);
+		        } else {
+		        	disable_save_to_order.val(0);
+		        }
+		        _self.AppetitAdmin.save();
+		    });		    			
 
 			this.el.find('.currency_symbol').focusout(_.bind(function() {
 				this.AppetitAdmin.save();
@@ -387,17 +397,45 @@ var AViews = function() {
 
 			this.el.find('.appetit_slug').focusout(_.bind(function() {
 				this.AppetitAdmin.save();
-			}, this));						
+			}, this));
+
+			this.el.find('.appetit-custom-css').focusout(_.bind(function() {
+				this.AppetitAdmin.save();
+			}, this));									
 
 			this.serialize = function() {
 				return {					
 					currencySymbol: this.el.find('.currency_symbol').val(),
 					currencyPosition: this.el.find('.currency_position').val(),
-					appetitSlug: this.el.find('.appetit_slug').val()
+					appetitSlug: this.el.find('.appetit_slug').val(),
+					disable_save_to_order: this.el.find('.disable_save_to_order').val(),
+					appetitCustomCSS: document.getElementById("appetitCustomCSS").value
 				}
 			}			
 		},
 		//end options view
+
+		//labels view
+		LabelsView: function(AppetitAdmin) {
+			this.AppetitAdmin = AppetitAdmin;
+			this.el = jQuery('#labels');
+			var _self = this;
+
+			jQuery('#labels .labels-input input').each(function(indx) {
+				jQuery(this).focusout(function() {
+					_self.AppetitAdmin.save();
+				});
+			});
+
+			this.serialize = function() {
+				var obj = {};
+				jQuery('#labels .labels-input input').each(function(indx) {
+					obj[jQuery(this).attr('data-field')] = jQuery(this).val()
+				});
+				return obj;
+			}			
+		},
+		//end labels view		
 
 		//section name popup
 		SectionNamePopup: function(callback) {

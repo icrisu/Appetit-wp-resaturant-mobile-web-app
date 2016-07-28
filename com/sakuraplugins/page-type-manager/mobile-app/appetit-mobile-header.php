@@ -16,12 +16,15 @@
 
 	    <link rel="stylesheet" type="text/css" href="<?php echo APPETIT_FRONT_URI . '/fonts/'; ?>style.css" />
 
-	    <link rel="stylesheet" type="text/css" href="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>style.css" />
+	    <link rel="stylesheet" type="text/css" href="<?php echo APPETIT_FRONT_URI . '/css/'; ?>appetit-mobile-app-style.css" />
+
+		<style>
+			<?php echo $this->appetitCustomCSS; ?>
+		</style>
 
 	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>jquery/jqueryv2.1.1.js"></script>
 
-	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>app.js"></script>	    
-
+	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/js/'; ?>appetit-mobile-app.app.js"></script>	    
 
 
 	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>fastclick.js"></script>
@@ -33,25 +36,21 @@
 	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.actionsheet.js"></script>
 	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.animation.js"></script>
 	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.touchEvents.js"></script>
-	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.popup.js"></script>
-	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.drawer.js"></script>
-	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.toast.js"></script>
 	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.animateheader.js"></script>
-	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.splashscreen.js"></script>
 	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.swipereveal.js"></script>
-	    <script type="text/javascript" charset="utf-8" src="<?php echo APPETIT_FRONT_URI . '/afui/'; ?>src/af.lockscreen.js"></script>
+	   
 	    <script>
 
-	    $.afui.useOSThemes=false;
-	    $.afui.loadDefaultHash=true;
-	    $.afui.autoLaunch=false;
-	    var AppetitMobile;
+			$.afui.useOSThemes=false;
+			$.afui.loadDefaultHash=true;
+			$.afui.autoLaunch=false;
+			var AppetitMobile;
 
-	    $(document).ready(function() {
-	        $.afui.launch();
-	        AppetitMobile = new AppetitMobileApp();
-	        AppetitMobile.init();
-	    });
+			$(document).ready(function() {
+			    $.afui.launch();
+			    AppetitMobile = new AppetitMobileApp();
+			    AppetitMobile.init();
+			});
 
 	    </script>
     </head>

@@ -1,10 +1,12 @@
-    <div class="view appetit-content-view" id="mainview" data-currency-symbol="<?php echo $this->currencySymbol;?>" data-currency-position="<?php echo $this->currencyPosition;?>">
+    <div class="view appetit-content-view" id="mainview" data-currency-symbol="<?php echo $this->currencySymbol;?>" data-currency-position="<?php echo $this->currencyPosition;?>" data-disable-save-order="<?php echo $this->disable_save_to_order;?>">
 
         <header id="app-header">
             <a id="backButton" href="#" onclick="$.afui.goBack();" class="app-mobile-button app-mobile-button-back" ><span class="back-icon appetit-icon-arrow-left2"></span></a>
-            <h1>Menu categories</h1>
+            <h1></h1>
+            <?php if (!$this->disable_save_to_order): ?>
             <a id="cartButton" href="#cart" data-transition="up-reveal" onclick="AppetitMobile.beforeCartOpen();" class="app-mobile-button app-mobile-button-cart"><span class="appetit-icon-cart"></span><span class="cart-info">1</span></a>
             <a id="closeCartButton" href="#" onclick="$.afui.goBack();" class="app-mobile-button app-mobile-button-back pull-right" ><span class="back-icon appetit-icon-cross"></span></a>            
+            <?php endif; ?>
         </header>
 
         <!--pages-->
@@ -27,7 +29,7 @@
             <!--/home page-->
             
             <!--menu categories-->
-            <div class="panel" id="menu-categories" data-title="Menu categories">
+            <div class="panel" id="menu-categories" data-title="<?php echo $this->appetitLabels['menu_cat_label']; ?>">
 
                 <div class="panel-content">
                     <ul class="app-mobile-categories-list list inset">
@@ -61,7 +63,7 @@
             <!--/item page-->
 
             <!--cart-->
-            <div class="panel" id="cart" data-title="Saved orders">
+            <div class="panel" id="cart" data-title="<?php echo $this->appetitLabels['menu_saved_orders_label']; ?>">
                 <div class="panel-content cart-content"></div>
             </div>
             <!--/cart-->            

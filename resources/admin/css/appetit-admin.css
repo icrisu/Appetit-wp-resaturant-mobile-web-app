@@ -305,3 +305,8 @@ a.content-large-button:active{
     font-family: 'Open Sans', sans-serif !important;
     font-size: 14px; 	
 }
+
+.appetit-custom-css {
+	min-width: 50%;
+	min-height: 150px;
+}

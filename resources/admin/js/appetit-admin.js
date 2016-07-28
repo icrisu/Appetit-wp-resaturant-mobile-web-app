@@ -137,7 +137,8 @@ AppetitAdmin.prototype.saveInit = function() {
 	        'action': 'appetit_admin_api',
 	        'sectionsData':   data.sectionsData,
 	        'welcomeData': data.welcomeData,
-	        'optionsData': data.optionsData
+	        'optionsData': data.optionsData,
+	        'labelsData': data.labelsData
 	    }, 
 	    function(response){
 	    	try {
@@ -161,7 +162,12 @@ AppetitAdmin.prototype.serialize = function() {
 	_.each(this.sections, function(sectionView) {
 		sectionsData.push(sectionView.serialize());
 	});
-	return {sectionsData: sectionsData, welcomeData: this.welcomeView.serialize(), optionsData: this.optionsView.serialize()};
+	return {
+		sectionsData: sectionsData,
+		welcomeData: this.welcomeView.serialize(),
+		optionsData: this.optionsView.serialize(),
+		labelsData: this.labelsView.serialize()
+	};
 };
 
 AppetitAdmin.prototype.initExistingData = function(first_argument) {
@@ -203,6 +209,10 @@ AppetitAdmin.prototype.initOptions = function() {
 	this.optionsView = new AppetitViews.OptionsView(this);	
 };
 
+AppetitAdmin.prototype.initLabels = function() {
+	this.labelsView = new AppetitViews.LabelsView(this);
+};
+
 AppetitAdmin.prototype.init = function() {
 	this.createSaveButton();
 	this.sectionsUI = jQuery('#sections_accordion');
@@ -212,6 +222,7 @@ AppetitAdmin.prototype.init = function() {
 
 	this.initWelcome();
 	this.initOptions();
+	this.initLabels();
 	this.initExistingData();
 	jQuery('.appetit-admin-content').css('display', 'block');
 	jQuery('.tooltip').tooltipster({

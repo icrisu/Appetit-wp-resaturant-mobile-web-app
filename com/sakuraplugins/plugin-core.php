@@ -107,11 +107,13 @@ class AppetitCore {
 		$sectionsData = isset($_POST['sectionsData']) ? $_POST['sectionsData'] : [];
 		$welcomeData = isset($_POST['welcomeData']) ? $_POST['welcomeData'] : [];
 		$optionsData = isset($_POST['optionsData']) ? $_POST['optionsData'] : [];
+		$labelsData = isset($_POST['labelsData']) ? $_POST['labelsData'] : [];
 		
 		update_option(self::APPETIT_MENU_DATA, array(
 			'sectionsData' => $sectionsData,
 			'welcomeData' => $welcomeData,
-			'optionsData' => $optionsData
+			'optionsData' => $optionsData,
+			'labelsData' => $labelsData
 		));
 		echo json_encode(array('status' => 'OK'));
 		die();
@@ -119,8 +121,12 @@ class AppetitCore {
 
 	//register custom post type
 	private function _registerCPT() {
+		$data = get_option(self::APPETIT_MENU_DATA, array());
+		$optionsData = isset($data['optionsData']) ? $data['optionsData'] : array(); 
+		$appetitSlug = ( isset($optionsData['appetitSlug'])) ? $optionsData['appetitSlug'] : 'appetit';		
+
 		$settings = array('post_custom_meta_data' => self::APPETIT_CPT_META, 'post_type' => self::APPETIT_CPT_TYPE, 'name' => 'Appetit', 'menu_icon' => APPETIT_ADMIN_URI . '/img/icon.png',
-		'singular_name' => 'Appetit', 'rewrite' => 'appetit-pages', 'add_new' => 'New Appetit Page',
+		'singular_name' => 'Appetit', 'rewrite' => $appetitSlug, 'add_new' => 'New Appetit Page',
 		'edit_item' => 'Edit', 'new_item' => 'New Appetit Page', 'view_item' => 'View page', 'search_items' => 'Search pages',
 		'not_found' => 'No page found', 'not_found_in_trash' => 'Page not found in trash', 
 		'supports' => array('title'));

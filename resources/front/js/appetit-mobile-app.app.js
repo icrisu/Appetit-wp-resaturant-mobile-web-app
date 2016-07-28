@@ -34,6 +34,9 @@ AppetitMobileApp.prototype.views = {
 					'</li>'
 				].join('');				
 			}
+			if (this.data && this.data.length == '') {
+				return 'empty ... no items added';
+			}
 			return [
 				'<ul class="list inset">',
 					itemsHTML,
@@ -144,8 +147,8 @@ AppetitMobileApp.prototype.views = {
 			}
 			return [
 				'<div class="order-block order-block-active">',
-					'<p class="appetit-mobile-order-title pull-left">Opened order: ' + this.buidPrice(total.toFixed(2)) + '</p>',
-					'<a href="#" onclick="AppetitMobile.closeOrder();" class="pull-right appetit-close-order-btn"><span class="appetit-icon-cross"></span>Close order</a>',
+					'<p class="appetit-mobile-order-title pull-left">' + this.context.labels.openedOrder + ': ' + this.buidPrice(total.toFixed(2)) + '</p>',
+					'<a href="#" onclick="AppetitMobile.closeOrder();" class="pull-right appetit-close-order-btn"><span class="appetit-icon-cross"></span>' + this.context.labels.closeOrder + '</a>',
 					'<div class="clear-fx"></div>',
 					'<ul class="list inset">',
 						itemsHTML,
@@ -193,7 +196,7 @@ AppetitMobileApp.prototype.views = {
 
 			return [
 				'<div class="appetit-past-orders-ui">',
-					'<p class="appetit-mobile-order-title"><strong>Past orders</strong></p>',
+					'<p class="appetit-mobile-order-title"><strong>' + this.context.labels.pastOrders + '</strong></p>',
 					'<ul class="list inset">',
 						pastOrdersHTML,
 					'</ul>',
@@ -253,7 +256,7 @@ AppetitMobileApp.prototype.views = {
 		this.deleteOrder = function(id) {
 			var _self = this;
 			var orderItem = this.el.find('[data-orderid="'+ id +'"]');		
-			if (confirm('Are you sure you want to delete this order?')) {
+			if (confirm(this.context.labels.confirmDeleteOrder)) {
 				this.animateOrderItemInfo(orderItem, 0, 0, function() {
 					orderItem.remove();
 					_self.Cart.getInstance().deleteOrder(id);
@@ -414,21 +417,32 @@ AppetitMobileApp.prototype.buildPrice = function(price, isStrong, label) {
 };
 
 AppetitMobileApp.prototype.handleData = function() {
-	this.isSaveToOrderAllowed = true;
+	this.isSaveToOrderAllowed = !parseInt($('.appetit-content-view').data().disableSaveOrder, 10);
+
 	this.labels = {};
 	this.labels.priceLabel = 'Price';
 	this.labels.priceLabelTotal = 'Total';
 	this.labels.saveLabel = 'Save';
 	this.labels.noSavedOrders = 'There are no opened orders';
+	this.labels.openedOrder = 'Opened order';
+	this.labels.closeOrder = 'Close order';
+	this.labels.pastOrders = 'Past orders';
+	this.labels.confirmDeleteOrder = 'Are you sure you want to delete this order?';
 
 	this.currencySymbol = $('.appetit-content-view').data().currencySymbol || '$';
 	this.currencyPositionAfter = parseInt($('.appetit-content-view').data().currencyPosition, 10) || 0;	
 
 	try {
-		this.itemsData = JSON.parse($('#items_data').html());
+		this.itemsData = JSON.parse($('#items_data').html());	
 	} catch (e) {
 		throw e;
 	}
+
+	try {
+		this.labels = JSON.parse($('#labels_data').html());
+	} catch (e) {
+		throw e;
+	}		
 };
 
 AppetitMobileApp.prototype.getItemsBySection = function(sectionId) {
