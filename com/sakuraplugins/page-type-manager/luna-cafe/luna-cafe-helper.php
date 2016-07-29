@@ -5,11 +5,13 @@ require_once(dirname(__FILE__) . '/../../utils/AppetitUtils.php');
 */
 class LunaCafeHelper
 {	
-	public static function buildContent($genericPageObject) {
+	public static function buildContent($genericPageObject, $options = array()) {
+		$showLogo = (isset($options['showLogo']) && $options['showLogo'] == 'true') ? true : false;
 		?>
 		<div class="luna-cafe-main">
 		<?php
 		?>
+			<?php if($showLogo): ?>
 			<!--logo-->
 			<div class="luna-cafe-main-logo-ui">
                 <?php if (!is_null($genericPageObject->welcomeLogoId)): ?>
@@ -19,6 +21,7 @@ class LunaCafeHelper
                 <?php endif; ?>				
 			</div>
 			<!--/logo-->
+			<?php endif;?>
 
 			<!--stars-->
 			<ul class="luna-cafe-starts">

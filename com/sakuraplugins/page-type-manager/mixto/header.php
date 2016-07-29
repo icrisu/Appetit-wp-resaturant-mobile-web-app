@@ -21,10 +21,13 @@
   body { 
     margin: 0;
     padding: 0;
-    background-image: url('<?php echo APPETIT_FRONT_URI; ?>/img/patterns/dark_embroidery.png');
-    background-repeat: repeat;
+    background: #2b3b50;
   }  
+
+  body:before, body:after {
+      height: 0px !important;
+  }
   </style>
 </head>
 
-<body id="appetit-luna-cafe-single" <?php body_class(); ?>>
+<body id="appetit-mixto-single" <?php body_class(); ?>>

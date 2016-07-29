@@ -36,7 +36,7 @@ class AppetitGenericPage
 	public function buildImagesSrc() {
 		for ($i=0; $i < sizeof($this->sectionsData); $i++) {
 			if (isset($this->sectionsData[$i]['section_img_id']) && $this->sectionsData[$i]['section_img_id'] != '') {
-				$this->sectionsData[$i]['section_image_src'] = wp_get_attachment_image_url($this->sectionsData[$i]['section_img_id']);
+				$this->sectionsData[$i]['section_image_src'] = wp_get_attachment_image_url($this->sectionsData[$i]['section_img_id'], array(1100, 500));
 				$this->sectionsData[$i]['section_image_srcset'] = wp_get_attachment_image_srcset($this->sectionsData[$i]['section_img_id']);
 			} else {
 				$this->sectionsData[$i]['section_image_src'] = '';

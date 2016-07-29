@@ -1,0 +1,231 @@
+/* main container */
+.appetit-mixto-main {	
+	max-width: 1100px;
+	position: relative;
+	margin: auto;
+	background: #edf2f6;
+	margin-top: 0px; margin-bottom: 0px;
+	padding: 60px;
+}
+
+.appetit-mixto-main-shadow {
+	-webkit-box-shadow: 0px 0px 37px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 37px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 37px 0px rgba(0,0,0,0.75);	
+}
+
+@media (max-width: 1099px) {		
+	.appetit-mixto-main {
+		padding: 20px;
+	}
+}
+
+@media (max-width: 767px) {		
+	.appetit-mixto-main {
+		padding: 10px;
+	}
+}
+/* end main container */
+
+/* logo */
+.mixto-main-logo-ui {
+	text-align: center;
+	padding-bottom: 130px;
+	padding-top: 100px;
+	background: #FFFFFF;
+}
+.mixto-main-logo-ui img {
+	display: inline-block;
+	max-width: 300px;
+}
+
+@media (max-width: 400px) {		
+	.mixto-main-logo-ui img {
+		max-width: 250px;
+	}
+}
+/* /logo */
+
+
+/* section */
+.appetit-mixto-section-ui {
+	margin: 100px 0px;
+}
+
+.appetit-mixto-last-section {
+	margin-bottom: 0px;
+}
+
+.appetit-mixto-section-ui-first {
+	margin-top: 0px;
+}
+
+.appetit-mixto-section-header {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 350px;
+}
+
+.appetit-mixto-section-info-ui {
+	width: 300px; height: 300px;
+	background-color: #FFFFFF;
+	position: relative;
+	top: 25px;
+	-webkit-box-shadow: 10px 10px 37px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 10px 10px 37px 0px rgba(0,0,0,0.75);
+	box-shadow: 10px 10px 37px 0px rgba(0,0,0,0.75);	
+}
+.appetit-mixto-section-info-ui-left {
+	left: -25px;
+}
+.appetit-mixto-section-info-ui-right {
+	right: -25px;
+	float: right;
+}
+
+@media (max-width: 600px) {		
+	.appetit-mixto-section-info-ui-left {
+		left: 0px;
+	}
+	.appetit-mixto-section-info-ui-right {
+		right: 0px;
+	}
+}
+
+.appetit-mixto-section-items-content {
+	background: #FFFFFF;
+}
+
+.appetit-mixto-section-title-ui {
+	top: 116px;
+	position: relative; display: block;
+	text-align: center;
+}
+
+.appetit-mixto-section-title-container {
+	display: inline-block;
+	margin: 0px; padding: 0px;
+}
+
+.appetit-mixto-section-title-container:before, .appetit-mixto-section-title-container:after {
+	padding: 0; margin: 0;
+}
+
+.appetit-mixto-section-title-bordered {
+	border-top-style: solid; border-bottom-style: solid; border-width: 1px;
+	margin: 0px; padding: 0px; border-color: #dddddd;
+}
+
+.appetit-mixto-section-title-border-small {
+	height: 1px; width: 70%; display: block; background: #dddddd;
+	padding: 0; position: relative; margin: auto;
+}
+
+.mixto-border-small-top {
+	top: -8px;
+}
+
+.mixto-border-small-bottom {
+	top: 8px;
+}
+
+.appetit-mixto-section-title {
+	font-family: 'Open Sans Condensed', sans-serif !important;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 32px; margin: 0px; padding: 0px;
+	color: #6b828e;
+	letter-spacing: 4px;
+}
+
+.appetit-mixto-section-info-text {
+	color: #d39d8a;
+	font-size: 16px; margin: 0px; padding: 0px;
+	font-family: 'Open Sans Condensed', sans-serif !important;
+	text-align: center;
+	font-weight: 600;
+	line-height: 140%;
+}
+/* end section */
+
+/* section items */
+.appetit-mixto-section-items-content {
+	padding: 40px;
+}
+
+.appetit-mixto-section-item-ui {
+	display: block;
+	margin-bottom: 20px;
+}
+
+.appetit-mixto-section-items-content[min-width~="900px"] .appetit-mixto-section-item-ui   {	
+	width: 50%; float: left;
+}
+
+.appetit-mixto-section-item-ui[min-width~="600px"] {
+	width: auto; float: none;
+}
+
+.appetit-mixto-section-item-ui-inside {
+	padding: 10px;
+}
+
+.appetit-mixto-item-title{
+	font-family: 'Open Sans Condensed', sans-serif !important;
+	text-transform: uppercase;
+	font-weight: 600;
+	letter-spacing: 4px;
+	margin: 0; margin-bottom: 1px;
+	float: left;
+}
+
+.appetit-mixto-item-title-price {
+	float: right;
+	color: #b09472;	
+}
+
+.appetit-mixto-item-title-line {
+	height: 1px;
+	background-color: #dddddd;
+	margin-bottom: 15px
+}
+
+.appetit-mixto-item-thumb {
+	float: left; margin-right: 15px; margin-bottom: 15px;
+	max-width: 120px;
+}
+
+.appetit-mixto-item-description {
+	font-family: 'Open Sans', sans-serif !important;
+	font-size: 14px;
+	color: #909090;
+}
+/* end section items */
+
+.mixto-pull-left {
+	float: left:
+}
+
+.mixto-pull-right {
+	float: right: 
+}
+
+.mixto-clear: {
+	clear: both;
+}
+
+.mixto-clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.mixto-clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .mixto-clearfix { height: 1%; }
+.mixto-clearfix { display: block; }
+/* close commented backslash hack */

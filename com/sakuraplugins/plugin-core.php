@@ -49,7 +49,16 @@ class AppetitCore {
 		wp_register_style('luna-cafe', APPETIT_FRONT_URI . '/css/luna-cafe.css');
 		wp_enqueue_style('luna-cafe');
 
-		AppetitUtils::enqueAdminFontsFrom(AppetitOptions::getAdminFonts());		
+		wp_register_style('appetit-mixto', APPETIT_FRONT_URI . '/css/appetit-mixto.css');
+		wp_enqueue_style('appetit-mixto');
+
+		wp_register_script('resize_sensor', APPETIT_FRONT_URI.'/libs/element-queries/ResizeSensor.js', array('jquery'), FALSE, TRUE);
+		wp_enqueue_script('resize_sensor');
+
+		wp_register_script('element_queries', APPETIT_FRONT_URI.'/libs/element-queries/ElementQueries.js', array('jquery'), FALSE, TRUE);
+		wp_enqueue_script('element_queries');
+
+		AppetitUtils::enqueFontsFrom(AppetitOptions::getFrontendFonts());		
 	}
 
 	//admin scripts

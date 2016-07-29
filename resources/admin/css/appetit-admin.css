@@ -310,3 +310,28 @@ a.content-large-button:active{
 	min-width: 50%;
 	min-height: 150px;
 }
+
+.shortcode-info-ui {
+	margin: 17px 0px;
+}
+
+.shortcode-display-info {
+	background-color: #d5f8fd;
+	padding: 4px 8px;
+	margin-right: 10px;
+	color: #178a9c;
+}
+
+.shortcode-info-label {
+	font-style: italic;
+	color: #a1a0a0;
+}
+
+.appetit-cpt-admin-page-title {
+	font-family: 'Open Sans', sans-serif !important;
+	text-transform: uppercase;
+}
+
+.appetit-admin-space-15 {
+	height: 15px;
+}

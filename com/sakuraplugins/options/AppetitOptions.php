@@ -13,6 +13,14 @@ class AppetitOptions
 		);
 	}
 
+	//get frontend fonts	
+	public static function getFrontendFonts() {
+		return array(
+			array('key'=>'roboto', 'resource'=>'://fonts.googleapis.com/css?family=Roboto:400,300'),
+			array('key'=>'sk-opensans', 'resource'=>'://fonts.googleapis.com/css?family=Open+Sans:400,800,300,600')
+		);
+	}	
+
 	//get label fields
 	public static function getLabelsFields() {
 		return array(
