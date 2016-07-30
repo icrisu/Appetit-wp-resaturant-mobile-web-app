@@ -17,7 +17,8 @@ class PageTypeManager
 	private static $availableTypes = array(
 		array('type' => 'mobileapp', 'displayName' => 'Appetit Mobile Web App', 'execClass' => 'AppetitMobilePage', 'path' => '/mobile-app/appetit-mobile-page.php'),
 		array('type' => 'luna-caffe', 'displayName' => 'Luna Cafe', 'execClass' => 'LunaCafePage', 'path' => '/luna-cafe/luna-cafe.php'),
-		array('type' => 'mixto', 'displayName' => 'Mixto', 'execClass' => 'MixtoPage', 'path' => '/mixto/mixto.php')
+		array('type' => 'mixto', 'displayName' => 'Mixto', 'execClass' => 'MixtoPage', 'path' => '/mixto/mixto.php'),
+		array('type' => 'dante', 'displayName' => 'Dante', 'execClass' => 'DantePage', 'path' => '/dante/dante.php')
 	);
 
 	//get page types

@@ -51,6 +51,7 @@ class AppetitGenericPage
 
 					if (isset($this->sectionsData[$i]['section_items'][$k]['menu_img_id']) && $this->sectionsData[$i]['section_items'][$k]['menu_img_id'] != '') {
 						$this->sectionsData[$i]['section_items'][$k]['menu_img_src'] = wp_get_attachment_image_url($this->sectionsData[$i]['section_items'][$k]['menu_img_id']);
+
 						$this->sectionsData[$i]['section_items'][$k]['menu_img_srcset'] = wp_get_attachment_image_srcset($this->sectionsData[$i]['section_items'][$k]['menu_img_id']);						
 					} else {
 						$this->sectionsData[$i]['section_items'][$k]['menu_img_src'] = '';
@@ -77,7 +78,7 @@ class AppetitGenericPage
 		
 		foreach ($labels_fields as $object) {	
 			$object['currentValue'] = ( isset($labelsData[$object['field']])) ? $labelsData[$object['field']] : $object['default_val'];
-			$this->appetitLabels[$object['field']] = wptexturize(stripslashes($object['currentValue']));
+			$this->appetitLabels[$object['field']] = wptexturize(stripslashes($object['currentValue']));			
 		}
 	}
 

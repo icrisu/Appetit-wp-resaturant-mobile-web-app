@@ -52,11 +52,27 @@ class AppetitCore {
 		wp_register_style('appetit-mixto', APPETIT_FRONT_URI . '/css/appetit-mixto.css');
 		wp_enqueue_style('appetit-mixto');
 
+		wp_register_style('appetit-dante', APPETIT_FRONT_URI . '/css/appetit-dante.css');
+		wp_enqueue_style('appetit-dante');		
+
 		wp_register_script('resize_sensor', APPETIT_FRONT_URI.'/libs/element-queries/ResizeSensor.js', array('jquery'), FALSE, TRUE);
 		wp_enqueue_script('resize_sensor');
 
 		wp_register_script('element_queries', APPETIT_FRONT_URI.'/libs/element-queries/ElementQueries.js', array('jquery'), FALSE, TRUE);
 		wp_enqueue_script('element_queries');
+
+		wp_register_script('appetit_packery', APPETIT_FRONT_URI.'/libs/packery/packery.min.js', array('jquery'), FALSE, TRUE);
+		wp_enqueue_script('appetit_packery');	
+
+		wp_register_script('appetit_dante', APPETIT_FRONT_URI.'/js/appetit-dante.js', array('jquery'), FALSE, TRUE);		
+
+		// Localize the script with new data
+		$appetitData = array(
+			'APPETIT_FRONT_URI' => APPETIT_FRONT_URI,
+		);
+		wp_localize_script('appetit_dante', 'APPETIT_DATA', $appetitData );
+
+		wp_enqueue_script('appetit_dante');
 
 		AppetitUtils::enqueFontsFrom(AppetitOptions::getFrontendFonts());		
 	}

@@ -86,7 +86,7 @@ class MixtoHelper
 		<div class="appetit-mixto-section-item-ui">
 			<div class="appetit-mixto-section-item-ui-inside">
 				<p class="appetit-mixto-item-title"><?php echo $item['menu_item_name']; ?></p>
-				<p class="appetit-mixto-item-title appetit-mixto-item-title-price"><?php echo AppetitUtils::getFormatedPrice($item['price_input'], $currencySymbol, $currencyPosition); ?></p>				
+				<p class="appetit-mixto-item-title appetit-mixto-item-title-price"><?php echo AppetitUtils::getFormatedPrice($item['price_input'], $currencySymbol, $currencyPosition); ?></p>
 				<div class="mixto-clearfix"></div>
 				<div class="appetit-mixto-item-title-line"></div>
 				<img class="appetit-mixto-item-thumb" src="<?php echo $item['menu_img_src']; ?>" alt="<?php echo $item['menu_item_name']; ?>">

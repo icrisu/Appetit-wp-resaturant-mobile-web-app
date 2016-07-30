@@ -16,6 +16,7 @@ class ShortcodesManager
 	public function registerShortcodes() {
 		add_shortcode('appetit-luna-cafe', array($this, 'appetitLunaCafe'));
 		add_shortcode('appetit-mixto', array($this, 'appetitMixto'));
+		add_shortcode('appetit-dante', array($this, 'appetitDante'));
 	}
 
 	//Appetit luna shortcode
@@ -32,6 +33,14 @@ class ShortcodesManager
 		require_once(dirname(__FILE__) . '/../page-type-manager/mixto/mixto-helper.php');
 		MixtoHelper::buildContent($this->genericPage, array('showLogo' => $show_logo, 'removeShadow' => $remove_shadow));
 		return '';
-	}	
+	}
+
+	//Appetit dante shortcode
+	public function appetitDante($atts, $content = null) {
+		extract(shortcode_atts(array('show_logo' => 'true', 'remove_shadow' => 'true'), $atts));
+		require_once(dirname(__FILE__) . '/../page-type-manager/dante/dante-helper.php');
+		DanteHelper::buildContent($this->genericPage, array('showLogo' => $show_logo, 'removeShadow' => $remove_shadow));
+		return '';
+	}		
 }
 ?>

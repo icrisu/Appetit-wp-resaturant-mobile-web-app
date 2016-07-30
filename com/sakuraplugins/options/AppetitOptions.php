@@ -78,6 +78,11 @@ class AppetitOptions
 				'field' => 'confirmDeleteOrder',
 				'admin_title' => 'Confirm delete order label',
 				'default_val' => 'Are you sure you want to delete this order?'
+			),
+			array(
+				'field' => 'allLabel',
+				'admin_title' => 'All (used for Dante page type)',
+				'default_val' => 'All'
 			)						
 		);
 	} 
