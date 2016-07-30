@@ -77,6 +77,14 @@ class AppetitCore {
 		AppetitUtils::enqueFontsFrom(AppetitOptions::getFrontendFonts());		
 	}
 
+	//add custom css
+	public function hookCustomCSS() {
+		$menuData = get_option(self::APPETIT_MENU_DATA, array());
+		$appetitCustomCSS = (isset($menuData['optionsData']) && isset($menuData['optionsData']['appetitCustomCSS'])) ? trim($menuData['optionsData']['appetitCustomCSS']) : '';
+		$output = '<style type="text/css">' . $appetitCustomCSS . '</style>';
+		echo $output;
+	}	
+
 	//admin scripts
 	public function adminEnqueueScriptsHandler() {
 		$current_screen = get_current_screen();
@@ -106,7 +114,7 @@ class AppetitCore {
 
 			wp_enqueue_script('media-upload');
 			wp_enqueue_media();			
-		}	
+		}
 
 		//post type page		
 		if ($current_screen->post_type === $this->_appetitCPT->getPostSlug()) {
@@ -230,6 +238,7 @@ class AppetitCore {
 		add_action(	'save_post', array($this, 'savePostHandler'));
 		add_filter(	'single_template', array($this, 'sk_plugin_single'));
 		add_action(	'wp_enqueue_scripts', array($this, 'wpEnqueueScriptsHandler'));
+		add_action( 'wp_head', array($this, 'hookCustomCSS'));
 	}
 }
 
