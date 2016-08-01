@@ -149,7 +149,7 @@ body, a, p, div, h1 {
 
 @media (max-width: 767px) {		
 	.app-mobile-logo_ui img {
-		max-width: 60%;
+		max-width: 70%;
 	}
 }
 

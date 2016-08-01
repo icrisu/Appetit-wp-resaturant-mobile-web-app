@@ -70,7 +70,7 @@ class CoreUI {
 				$section_items = isset($section['section_items']) ? $section['section_items'] : array();
 				?>
 				<div class="appetit_section">
-				    <h3 class="section-header"><span>|  </span><span class="m_title"><?php echo wptexturize($section['section_name']);?></span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="sectionRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>
+				    <h3 class="section-header"><span>|  </span><span class="m_title"><?php echo wptexturize(stripslashes($section['section_name']));?></span> <span class="appetit-move a-pull-right"></span><span style="margin-right: 10px;" class="sectionRemoveBTN appetit-trashcan2 a-pull-right"></span></h3>
 				    <div class="clearfix">
 					    <div class="section-content-header">
 					    	<input class="generic_input one-third section_name" placeholder="Section name" type="text" value="<?php echo wptexturize(stripslashes($section['section_name']));?>" />
@@ -100,7 +100,7 @@ class CoreUI {
 				$menuItemID = isset($menuItem['menu_item_id']) ? $menuItem['menu_item_id'] : uniqid('_item');
 			?>
 				<div class="menu_item_ui">
-				    <h3 class="section-header"><span>| </span><span class="menu_title"><?php echo wptexturize($menuItemName); ?></span> <span class="appetit-move a-pull-right" title="Move / Drag to change order"></span><span style="margin-right: 10px;" title="Remove" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span><span style="margin-right: 10px;" class="menuCloneBTN appetit-copy a-pull-right" title="Duplicate"></h3>
+				    <h3 class="section-header"><span>| </span><span class="menu_title"><?php echo wptexturize(stripslashes($menuItemName)); ?></span> <span class="appetit-move a-pull-right" title="Move / Drag to change order"></span><span style="margin-right: 10px;" title="Remove" class="menuRemoveBTN appetit-trashcan2 a-pull-right"></span><span style="margin-right: 10px;" class="menuCloneBTN appetit-copy a-pull-right" title="Duplicate"></h3>
 				    <div class="clearfix">
 					    <div class="section-content-header">
 					    	<span class="input_label_prepend">Name</span><input class="generic_input one-third input_margin menu_item_name" placeholder="Item name" type="text" value="<?php echo wptexturize(stripslashes($menuItem['menu_item_name'])); ?>" />

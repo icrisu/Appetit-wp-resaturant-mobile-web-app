@@ -6,7 +6,7 @@
 class AppetitHeader
 {
 	public static function render() {
-		$appetitInfo = get_plugin_data(WEDX_FILE, $markup = true, $translate = true );
+		$appetitInfo = get_plugin_data(APPETIT_FILE, $markup = true, $translate = true );
 		?>
 		<div class="appetit-admin-header">
 			<img src="<?php echo APPETIT_ADMIN_URI . '/img/admin-logo.png'; ?>" alt="logo" />

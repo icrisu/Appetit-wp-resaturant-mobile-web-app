@@ -27,7 +27,7 @@ class AppetitCore {
 	//admin init handler
 	public function adminInitHandler() {
 		if (isset($this->_appetitCPT)) {
-			$this->_appetitCPT->addMetaBox(__('Appetit page', WX_PLUGIN_TEXTDOMAIN), 'meta_box_page_8172398', 'meta_box_appetit');
+			$this->_appetitCPT->addMetaBox('Appetit page', 'meta_box_page_8172398', 'meta_box_appetit');
 		}		
 	}
 

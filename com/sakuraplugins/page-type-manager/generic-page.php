@@ -95,7 +95,9 @@ class AppetitGenericPage
 		$this->buildImagesSrc();
 
 		$this->welcomeAbout = (isset($this->menuData['welcomeData']) && isset($this->menuData['welcomeData']['welcomeAbout'])) ? $this->menuData['welcomeData']['welcomeAbout'] : $this->welcomeAbout;
-		$this->welcomeLogoId = (isset($this->menuData['welcomeData']) && isset($this->menuData['welcomeData']['welcomeLogoId'])) ? $this->menuData['welcomeData']['welcomeLogoId'] : $this->welcomeLogoId;
+
+		$this->welcomeLogoId = (isset($this->menuData['welcomeData']) && isset($this->menuData['welcomeData']['welcomeLogoId']) && $this->menuData['welcomeData']['welcomeLogoId'] != '') ? $this->menuData['welcomeData']['welcomeLogoId'] : $this->welcomeLogoId;
+		
 		$this->welcomeLabel = (isset($this->menuData['welcomeData']) && isset($this->menuData['welcomeData']['welcomeLabel'])) ? $this->menuData['welcomeData']['welcomeLabel'] : $this->welcomeLabel;
 
 		$this->welcomeAbout = wptexturize(stripslashes($this->welcomeAbout));
